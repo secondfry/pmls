@@ -62,11 +62,12 @@ fn print_human(
         println!("{}", format!("# {}", category).cyan().bold());
         for d in &group {
             let sep = "#".dimmed();
-            let name = d.manager.name.bold();
+            let cmd = d.manager.command.bold();
+            let name = d.manager.name.dimmed();
             let version = d.version.as_deref().unwrap_or("unknown").yellow();
             match &d.packages_dir {
-                Some(dir) => println!("{} {} {} {} {}", name, sep, version, sep, dir.dimmed()),
-                None      => println!("{} {} {}", name, sep, version),
+                Some(dir) => println!("{} {} {} {} {} {} {}", cmd, sep, name, sep, version, sep, dir.dimmed()),
+                None      => println!("{} {} {} {} {}", cmd, sep, name, sep, version),
             }
 
             if list {
@@ -121,6 +122,7 @@ fn print_json(
             };
 
             JsonEntry {
+                command: d.manager.command.to_string(),
                 name: d.manager.name.to_string(),
                 category: d.manager.category.to_string(),
                 version: d.version.clone(),

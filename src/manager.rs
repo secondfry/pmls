@@ -59,6 +59,7 @@ pub struct DetectedPackageManager {
 /// raw function pointers, so we map into this struct for `--json` output.
 #[derive(Serialize)]
 pub struct JsonEntry {
+    pub command: String,
     pub name: String,
     pub category: String,
     pub version: Option<String>,
