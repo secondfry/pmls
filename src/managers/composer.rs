@@ -19,10 +19,11 @@ pub fn manager() -> PackageManager {
             "COMPOSER_AUTH",
         ],
         packages_dir: Some(|env| {
-            env.get("COMPOSER_HOME").cloned().or_else(|| {
-                home_dir().map(|h| {
-                    std::path::Path::new(&h).join(".composer").join("vendor").to_string_lossy().into_owned()
-                })
+            if let Some(p) = env.get("COMPOSER_HOME") {
+                return Some((p.clone(), "$COMPOSER_HOME"));
+            }
+            home_dir().map(|h| {
+                (std::path::Path::new(&h).join(".composer").join("vendor").to_string_lossy().into_owned(), "default")
             })
         }),
         list_cmd: Some(&["composer", "global", "show"]),

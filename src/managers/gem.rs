@@ -16,7 +16,7 @@ pub fn manager() -> PackageManager {
             "BUNDLE_GEMFILE",
         ],
         packages_dir: Some(|env| {
-            env.get("GEM_HOME").cloned()
+            env.get("GEM_HOME").map(|v| (v.clone(), "$GEM_HOME"))
         }),
         list_cmd: Some(&["gem", "list"]),
     }

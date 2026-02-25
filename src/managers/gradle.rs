@@ -19,10 +19,11 @@ pub fn manager() -> PackageManager {
             "GRADLE_OPTS",
         ],
         packages_dir: Some(|env| {
-            env.get("GRADLE_USER_HOME").cloned().or_else(|| {
-                home_dir().map(|h| {
-                    std::path::Path::new(&h).join(".gradle").join("caches").to_string_lossy().into_owned()
-                })
+            if let Some(p) = env.get("GRADLE_USER_HOME") {
+                return Some((p.clone(), "$GRADLE_USER_HOME"));
+            }
+            home_dir().map(|h| {
+                (std::path::Path::new(&h).join(".gradle").join("caches").to_string_lossy().into_owned(), "default")
             })
         }),
         list_cmd: None,

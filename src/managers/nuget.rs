@@ -13,11 +13,12 @@ pub fn manager() -> PackageManager {
         ],
         env_vars: &["NUGET_PACKAGES", "NUGET_HTTP_CACHE_PATH"],
         packages_dir: Some(|env| {
-            env.get("NUGET_PACKAGES").cloned().or_else(|| {
-                std::env::var("USERPROFILE")
-                    .ok()
-                    .map(|p| format!("{}\\.nuget\\packages", p))
-            })
+            if let Some(p) = env.get("NUGET_PACKAGES") {
+                return Some((p.clone(), "$NUGET_PACKAGES"));
+            }
+            std::env::var("USERPROFILE")
+                .ok()
+                .map(|h| (std::path::Path::new(&h).join(".nuget").join("packages").to_string_lossy().into_owned(), "default"))
         }),
         list_cmd: None,
     }

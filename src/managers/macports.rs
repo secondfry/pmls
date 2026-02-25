@@ -12,7 +12,7 @@ pub fn manager() -> PackageManager {
             "/opt/local/etc/macports/sources.conf",
         ],
         env_vars: &[],
-        packages_dir: Some(|_env| Some("/opt/local/var/macports/registry".to_string())),
+        packages_dir: Some(|_env| Some(("/opt/local/var/macports/registry".to_string(), "default"))),
         list_cmd: Some(&["port", "installed"]),
     }
 }

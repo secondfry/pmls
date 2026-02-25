@@ -18,10 +18,11 @@ pub fn manager() -> PackageManager {
             "CONDA_PKGS_DIRS",
         ],
         packages_dir: Some(|env| {
-            env.get("CONDA_PKGS_DIRS").cloned().or_else(|| {
-                env.get("CONDA_PREFIX")
-                    .map(|p| format!("{}/pkgs", p))
-            })
+            if let Some(p) = env.get("CONDA_PKGS_DIRS") {
+                return Some((p.clone(), "$CONDA_PKGS_DIRS"));
+            }
+            env.get("CONDA_PREFIX")
+                .map(|p| (format!("{}/pkgs", p), "$CONDA_PREFIX"))
         }),
         list_cmd: Some(&["conda", "list"]),
     }

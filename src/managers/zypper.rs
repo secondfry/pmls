@@ -9,7 +9,7 @@ pub fn manager() -> PackageManager {
         version_extractor: None,
         config_paths: &["/etc/zypp/zypp.conf", "/etc/zypp/repos.d/"],
         env_vars: &[],
-        packages_dir: Some(|_env| Some("/var/cache/zypp".to_string())),
+        packages_dir: Some(|_env| Some(("/var/cache/zypp".to_string(), "default"))),
         list_cmd: Some(&["zypper", "packages", "--installed-only"]),
     }
 }

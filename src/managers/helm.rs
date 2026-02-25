@@ -19,13 +19,14 @@ pub fn manager() -> PackageManager {
             "KUBECONFIG",
         ],
         packages_dir: Some(|env| {
-            env.get("HELM_DATA_HOME").cloned().or_else(|| {
-                home_dir().map(|h| {
-                    #[cfg(windows)]
-                    return format!("{}\\AppData\\Roaming\\helm", h);
-                    #[cfg(not(windows))]
-                    return format!("{}/.local/share/helm", h);
-                })
+            if let Some(p) = env.get("HELM_DATA_HOME") {
+                return Some((p.clone(), "$HELM_DATA_HOME"));
+            }
+            home_dir().map(|h| {
+                #[cfg(windows)]
+                return (format!("{}\\AppData\\Roaming\\helm", h), "default");
+                #[cfg(not(windows))]
+                return (format!("{}/.local/share/helm", h), "default");
             })
         }),
         list_cmd: Some(&["helm", "list", "-A"]),

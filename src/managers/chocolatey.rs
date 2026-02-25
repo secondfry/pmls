@@ -18,7 +18,7 @@ pub fn manager() -> PackageManager {
         ],
         packages_dir: Some(|env| {
             env.get("ChocolateyInstall")
-                .map(|p| format!("{}\\lib", p))
+                .map(|p| (format!("{}\\lib", p), "$ChocolateyInstall"))
         }),
         list_cmd: Some(&["choco", "list", "--local-only"]),
     }

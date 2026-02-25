@@ -9,7 +9,7 @@ pub fn manager() -> PackageManager {
         version_extractor: None,
         config_paths: &["/etc/pacman.conf", "/etc/pacman.d/mirrorlist"],
         env_vars: &[],
-        packages_dir: Some(|_env| Some("/var/lib/pacman/local".to_string())),
+        packages_dir: Some(|_env| Some(("/var/lib/pacman/local".to_string(), "default"))),
         list_cmd: Some(&["pacman", "-Q"]),
     }
 }

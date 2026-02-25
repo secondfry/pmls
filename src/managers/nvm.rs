@@ -17,13 +17,15 @@ pub fn manager() -> PackageManager {
             "NVM_DIR",
         ],
         packages_dir: Some(|env| {
-            env.get("NVM_HOME").cloned()
-                .or_else(|| env.get("NVM_DIR").cloned())
-                .or_else(|| {
-                    std::env::var("HOME").ok().map(|h| {
-                        std::path::Path::new(&h).join(".nvm").to_string_lossy().into_owned()
-                    })
-                })
+            if let Some(p) = env.get("NVM_HOME") {
+                return Some((p.clone(), "$NVM_HOME"));
+            }
+            if let Some(p) = env.get("NVM_DIR") {
+                return Some((p.clone(), "$NVM_DIR"));
+            }
+            std::env::var("HOME").ok().map(|h| {
+                (std::path::Path::new(&h).join(".nvm").to_string_lossy().into_owned(), "default")
+            })
         }),
         list_cmd: Some(&["nvm", "list"]),
     }

@@ -21,10 +21,11 @@ pub fn manager() -> PackageManager {
             "HOMEBREW_NO_AUTO_UPDATE",
         ],
         packages_dir: Some(|env| {
-            env.get("HOMEBREW_CELLAR").cloned().or_else(|| {
-                env.get("HOMEBREW_PREFIX")
-                    .map(|p| format!("{}/Cellar", p))
-            })
+            if let Some(p) = env.get("HOMEBREW_CELLAR") {
+                return Some((p.clone(), "$HOMEBREW_CELLAR"));
+            }
+            env.get("HOMEBREW_PREFIX")
+                .map(|p| (format!("{}/Cellar", p), "$HOMEBREW_PREFIX"))
         }),
         list_cmd: Some(&["brew", "list"]),
     }

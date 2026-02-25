@@ -21,10 +21,11 @@ pub fn manager() -> PackageManager {
             "GOFLAGS",
         ],
         packages_dir: Some(|env| {
-            env.get("GOMODCACHE").cloned().or_else(|| {
-                env.get("GOPATH")
-                    .map(|p| format!("{}/pkg/mod", p))
-            })
+            if let Some(p) = env.get("GOMODCACHE") {
+                return Some((p.clone(), "$GOMODCACHE"));
+            }
+            env.get("GOPATH")
+                .map(|p| (std::path::Path::new(p).join("pkg").join("mod").to_string_lossy().into_owned(), "$GOPATH"))
         }),
         list_cmd: None,
     }

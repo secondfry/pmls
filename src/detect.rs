@@ -52,8 +52,11 @@ pub fn detect(all: Vec<PackageManager>) -> Vec<DetectedPackageManager> {
                 let env_map: EnvMap = pm.env_vars.iter()
                     .filter_map(|k| std::env::var(k).ok().map(|v| (*k, v)))
                     .collect();
-                let packages_dir = pm.packages_dir.map(|f| f(&env_map)).flatten();
-                Some(DetectedPackageManager { manager: pm, version, packages_dir })
+                let (packages_dir, packages_dir_source) = match pm.packages_dir.and_then(|f| f(&env_map)) {
+                    Some((path, src)) => (Some(path), Some(src)),
+                    None => (None, None),
+                };
+                Some(DetectedPackageManager { manager: pm, version, packages_dir, packages_dir_source })
             } else {
                 None
             }

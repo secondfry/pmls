@@ -18,14 +18,15 @@ pub fn manager() -> PackageManager {
             "NODE_PATH",
         ],
         packages_dir: Some(|env| {
-            env.get("NPM_CONFIG_PREFIX").cloned().or_else(|| {
-                #[cfg(windows)]
-                return std::env::var("APPDATA")
-                    .ok()
-                    .map(|p| format!("{}\\npm\\node_modules", p));
-                #[cfg(not(windows))]
-                return Some("/usr/local/lib/node_modules".to_string());
-            })
+            if let Some(p) = env.get("NPM_CONFIG_PREFIX") {
+                return Some((p.clone(), "$NPM_CONFIG_PREFIX"));
+            }
+            #[cfg(windows)]
+            return std::env::var("APPDATA")
+                .ok()
+                .map(|p| (format!("{}\\npm\\node_modules", p), "default"));
+            #[cfg(not(windows))]
+            return Some(("/usr/local/lib/node_modules".to_string(), "default"));
         }),
         list_cmd: Some(&["npm", "-g", "ls", "--depth=0"]),
     }

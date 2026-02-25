@@ -20,7 +20,7 @@ pub fn manager() -> PackageManager {
         ],
         packages_dir: Some(|_env| {
             home_dir().map(|h| {
-                std::path::Path::new(&h).join(".m2").join("repository").to_string_lossy().into_owned()
+                (std::path::Path::new(&h).join(".m2").join("repository").to_string_lossy().into_owned(), "default")
             })
         }),
         list_cmd: None,

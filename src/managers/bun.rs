@@ -16,10 +16,11 @@ pub fn manager() -> PackageManager {
             "BUN_INSTALL_CACHE_DIR",
         ],
         packages_dir: Some(|env| {
-            env.get("BUN_INSTALL").cloned().or_else(|| {
-                home_dir().map(|h| {
-                    std::path::Path::new(&h).join(".bun").to_string_lossy().into_owned()
-                })
+            if let Some(p) = env.get("BUN_INSTALL") {
+                return Some((p.clone(), "$BUN_INSTALL"));
+            }
+            home_dir().map(|h| {
+                (std::path::Path::new(&h).join(".bun").to_string_lossy().into_owned(), "default")
             })
         }),
         list_cmd: Some(&["bun", "pm", "-g", "ls"]),

@@ -41,7 +41,7 @@ pub struct PackageManager {
     /// Runtime function that resolves the primary directory where packages
     /// or binaries installed by this manager live.
     /// Returns `None` when the location cannot be determined at runtime.
-    pub packages_dir: Option<fn(&EnvMap) -> Option<String>>,
+    pub packages_dir: Option<fn(&EnvMap) -> Option<(String, &'static str)>>,
     /// Command + arguments used to list installed packages, e.g.
     /// `&["npm", "-g", "ls", "--depth=0"]`.
     /// The first element must be the executable; the rest are arguments.
@@ -55,6 +55,8 @@ pub struct DetectedPackageManager {
     pub version: Option<String>,
     /// Resolved packages/binaries directory (populated during detection).
     pub packages_dir: Option<String>,
+    /// Where packages_dir came from: env var name, config file path, "default", etc.
+    pub packages_dir_source: Option<&'static str>,
 }
 
 // ── JSON output types ─────────────────────────────────────────────────────────
@@ -69,6 +71,8 @@ pub struct JsonEntry {
     pub category: String,
     pub version: Option<String>,
     pub packages_dir: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub packages_dir_source: Option<String>,
     /// Only present when `--list` was requested.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub packages: Option<Vec<String>>,

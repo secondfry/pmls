@@ -50,15 +50,11 @@ pub fn manager() -> PackageManager {
         ],
         env_vars: &["SCOOP", "SCOOP_GLOBAL"],
         packages_dir: Some(|env| {
-            let root = env.get("SCOOP")
-                .cloned()
-                .unwrap_or_else(|| {
-                    format!(
-                        "{}\\scoop",
-                        std::env::var("USERPROFILE").unwrap_or_default()
-                    )
-                });
-            Some(format!("{}\\apps", root))
+            if let Some(root) = env.get("SCOOP") {
+                return Some((format!("{}\\apps", root), "$SCOOP"));
+            }
+            let home = std::env::var("USERPROFILE").unwrap_or_default();
+            Some((format!("{}\\scoop\\apps", home), "default"))
         }),
         list_cmd: Some(&["scoop", "list"]),
     }

@@ -17,7 +17,7 @@ pub fn manager() -> PackageManager {
             "YARN_REGISTRY",
         ],
         packages_dir: Some(|env| {
-            env.get("YARN_GLOBAL_FOLDER").cloned()
+            env.get("YARN_GLOBAL_FOLDER").map(|v| (v.clone(), "$YARN_GLOBAL_FOLDER"))
         }),
         list_cmd: Some(&["yarn", "global", "list", "--depth=0"]),
     }

@@ -18,10 +18,11 @@ pub fn manager() -> PackageManager {
             "CARGO_INCREMENTAL",
         ],
         packages_dir: Some(|env| {
-            env.get("CARGO_HOME").cloned().or_else(|| {
-                home_dir().map(|p| {
-                    std::path::Path::new(&p).join(".cargo").join("bin").to_string_lossy().into_owned()
-                })
+            if let Some(p) = env.get("CARGO_HOME") {
+                return Some((p.clone(), "$CARGO_HOME"));
+            }
+            home_dir().map(|h| {
+                (std::path::Path::new(&h).join(".cargo").join("bin").to_string_lossy().into_owned(), "default")
             })
         }),
         list_cmd: Some(&["cargo", "install", "--list"]),

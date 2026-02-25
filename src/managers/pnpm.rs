@@ -16,7 +16,7 @@ pub fn manager() -> PackageManager {
             "NPM_CONFIG_REGISTRY",
         ],
         packages_dir: Some(|env| {
-            env.get("PNPM_HOME").cloned()
+            env.get("PNPM_HOME").map(|v| (v.clone(), "$PNPM_HOME"))
         }),
         list_cmd: Some(&["pnpm", "-g", "ls", "--depth=0"]),
     }

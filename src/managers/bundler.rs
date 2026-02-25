@@ -19,7 +19,7 @@ pub fn manager() -> PackageManager {
             "BUNDLE_WITHOUT",
         ],
         packages_dir: Some(|env| {
-            env.get("BUNDLE_PATH").cloned()
+            env.get("BUNDLE_PATH").map(|v| (v.clone(), "$BUNDLE_PATH"))
         }),
         list_cmd: Some(&["bundle", "list"]),
     }

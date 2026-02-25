@@ -18,19 +18,17 @@ pub fn manager() -> PackageManager {
             "FNM_MULTISHELL_PATH",
         ],
         packages_dir: Some(|env| {
-            env.get("FNM_DIR").cloned()
-                .or_else(|| {
-                    #[cfg(windows)]
-                    return std::env::var("APPDATA").ok().map(|h| {
-                        std::path::Path::new(&h).join("fnm").to_string_lossy().into_owned()
-                    });
-                    #[cfg(not(windows))]
-                    return std::env::var("HOME").ok().map(|h| {
-                        std::path::Path::new(&h)
-                            .join(".local").join("share").join("fnm")
-                            .to_string_lossy().into_owned()
-                    });
-                })
+            if let Some(p) = env.get("FNM_DIR") {
+                return Some((p.clone(), "$FNM_DIR"));
+            }
+            #[cfg(windows)]
+            return std::env::var("APPDATA").ok().map(|h| {
+                (std::path::Path::new(&h).join("fnm").to_string_lossy().into_owned(), "default")
+            });
+            #[cfg(not(windows))]
+            return std::env::var("HOME").ok().map(|h| {
+                (std::path::Path::new(&h).join(".local").join("share").join("fnm").to_string_lossy().into_owned(), "default")
+            });
         }),
         list_cmd: Some(&["fnm", "list"]),
     }

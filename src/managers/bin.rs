@@ -22,7 +22,7 @@ pub fn manager() -> PackageManager {
         ],
         packages_dir: Some(|env| {
             if let Some(p) = env.get("BIN_PATH").cloned() {
-                return Some(p);
+                return Some((p, "$BIN_PATH"));
             }
             let config_path = {
                 #[cfg(windows)]
@@ -40,7 +40,7 @@ pub fn manager() -> PackageManager {
             }?;
             let mut bytes = std::fs::read(config_path).ok()?;
             let config: BinConfig = simd_json::from_slice(&mut bytes).ok()?;
-            config.default_path
+            config.default_path.map(|p| (p, "~/.config/bin/config.json"))
         }),
         list_cmd: Some(&["bin", "ls"]),
     }

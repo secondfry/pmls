@@ -14,7 +14,7 @@ pub fn manager() -> PackageManager {
         packages_dir: Some(|_env| {
             std::env::var("LOCALAPPDATA")
                 .ok()
-                .map(|p| format!("{}\\Microsoft\\WinGet\\Packages", p))
+                .map(|p| (format!("{}\\Microsoft\\WinGet\\Packages", p), "$LOCALAPPDATA"))
         }),
         list_cmd: Some(&["winget", "list", "--disable-interactivity", "--accept-source-agreements"]),
     }

@@ -32,7 +32,7 @@ pub fn manager() -> PackageManager {
                 .ok()?;
             let text = String::from_utf8_lossy(&out.stdout);
             let path = text.trim();
-            if path.is_empty() { None } else { Some(path.to_string()) }
+            if path.is_empty() { None } else { Some((path.to_string(), "python sysconfig")) }
         }),
         list_cmd: Some(&["pip", "list"]),
     }

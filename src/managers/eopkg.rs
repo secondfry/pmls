@@ -9,7 +9,7 @@ pub fn manager() -> PackageManager {
         version_extractor: None,
         config_paths: &["/etc/eopkg/eopkg.conf"],
         env_vars: &[],
-        packages_dir: Some(|_env| Some("/var/lib/eopkg/package".to_string())),
+        packages_dir: Some(|_env| Some(("/var/lib/eopkg/package".to_string(), "default"))),
         list_cmd: Some(&["eopkg", "list-installed"]),
     }
 }

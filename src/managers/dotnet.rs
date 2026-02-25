@@ -20,10 +20,11 @@ pub fn manager() -> PackageManager {
             "NUGET_HTTP_CACHE_PATH",
         ],
         packages_dir: Some(|env| {
-            env.get("NUGET_PACKAGES").cloned().or_else(|| {
-                home_dir().map(|h| {
-                    std::path::Path::new(&h).join(".nuget").join("packages").to_string_lossy().into_owned()
-                })
+            if let Some(p) = env.get("NUGET_PACKAGES") {
+                return Some((p.clone(), "$NUGET_PACKAGES"));
+            }
+            home_dir().map(|h| {
+                (std::path::Path::new(&h).join(".nuget").join("packages").to_string_lossy().into_owned(), "default")
             })
         }),
         list_cmd: Some(&["dotnet", "tool", "list", "-g"]),

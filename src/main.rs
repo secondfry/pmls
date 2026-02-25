@@ -64,9 +64,10 @@ fn print_human(list: bool, verbose: bool) {
             let cmd = d.manager.command.bold();
             let name = d.manager.name.dimmed();
             let version = d.version.as_deref().unwrap_or("unknown").yellow();
-            match &d.packages_dir {
-                Some(dir) => println!("{} {} {} {} {} {} {}", cmd, sep, name, sep, version, sep, dir.dimmed()),
-                None      => println!("{} {} {} {} {}", cmd, sep, name, sep, version),
+            match (&d.packages_dir, d.packages_dir_source) {
+                (Some(dir), Some(src)) => println!("{} {} {} {} {} {} {} ({})", cmd, sep, name, sep, version, sep, dir.dimmed(), src.dimmed()),
+                (Some(dir), None)      => println!("{} {} {} {} {} {} {}", cmd, sep, name, sep, version, sep, dir.dimmed()),
+                _                      => println!("{} {} {} {} {}", cmd, sep, name, sep, version),
             }
 
             if list {
@@ -123,6 +124,7 @@ fn print_json(list: bool, verbose: bool) {
                 category: d.manager.category.to_string(),
                 version: d.version.clone(),
                 packages_dir: d.packages_dir.clone(),
+                packages_dir_source: d.packages_dir_source.map(|s| s.to_string()),
                 packages,
                 list_error,
             }

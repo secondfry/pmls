@@ -13,9 +13,10 @@ pub fn manager() -> PackageManager {
         ],
         env_vars: &["NIX_PATH", "NIX_STORE", "NIX_CONF_DIR"],
         packages_dir: Some(|env| {
-            env.get("NIX_STORE")
-                .cloned()
-                .or_else(|| Some("/nix/store".to_string()))
+            if let Some(p) = env.get("NIX_STORE") {
+                return Some((p.clone(), "$NIX_STORE"));
+            }
+            Some(("/nix/store".to_string(), "default"))
         }),
         list_cmd: Some(&["nix", "profile", "list"]),
     }
