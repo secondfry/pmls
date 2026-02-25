@@ -11,5 +11,6 @@ pub fn manager() -> PackageManager {
         env_vars: &[],
         packages_dir: Some(|_env| Some(("/var/lib/pacman/local".to_string(), "default"))),
         list_cmd: Some(&["pacman", "-Q"]),
+        list_fn: None,
     }
 }

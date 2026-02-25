@@ -28,5 +28,6 @@ pub fn manager() -> PackageManager {
                 .map(|p| (format!("{}/Cellar", p), "$HOMEBREW_PREFIX"))
         }),
         list_cmd: Some(&["brew", "list"]),
+        list_fn: None,
     }
 }

@@ -15,5 +15,6 @@ pub fn manager() -> PackageManager {
         env_vars: &["PORTAGE_TMPDIR", "PORTDIR", "DISTDIR", "PKGDIR"],
         packages_dir: Some(|_env| Some(("/var/db/pkg".to_string(), "default"))),
         list_cmd: None,
+        list_fn: None,
     }
 }

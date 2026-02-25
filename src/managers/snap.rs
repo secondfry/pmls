@@ -11,5 +11,6 @@ pub fn manager() -> PackageManager {
         env_vars: &["SNAP", "SNAP_DATA", "SNAP_COMMON", "SNAP_USER_DATA"],
         packages_dir: Some(|_env| Some(("/snap".to_string(), "default"))),
         list_cmd: Some(&["snap", "list"]),
+        list_fn: None,
     }
 }

@@ -20,5 +20,6 @@ pub fn manager() -> PackageManager {
             env.get("YARN_GLOBAL_FOLDER").map(|v| (v.clone(), "$YARN_GLOBAL_FOLDER"))
         }),
         list_cmd: Some(&["yarn", "global", "list", "--depth=0"]),
+        list_fn: None,
     }
 }

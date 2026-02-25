@@ -57,5 +57,6 @@ pub fn manager() -> PackageManager {
             Some((format!("{}\\scoop\\apps", home), "default"))
         }),
         list_cmd: Some(&["scoop", "list"]),
+        list_fn: None,
     }
 }

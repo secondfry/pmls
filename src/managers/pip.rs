@@ -35,6 +35,7 @@ pub fn manager() -> PackageManager {
             if path.is_empty() { None } else { Some((path.to_string(), "python sysconfig")) }
         }),
         list_cmd: Some(&["pip", "list"]),
+        list_fn: None,
     }
 }
 

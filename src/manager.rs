@@ -47,6 +47,10 @@ pub struct PackageManager {
     /// The first element must be the executable; the rest are arguments.
     /// `None` means the manager has no simple list command.
     pub list_cmd: Option<&'static [&'static str]>,
+    /// Optional closure for listing when a simple static command is not
+    /// sufficient (e.g. glob expansion or runtime path resolution is required).
+    /// Takes precedence over `list_cmd` when both are set.
+    pub list_fn: Option<fn(&EnvMap) -> Result<Vec<String>, String>>,
 }
 
 #[derive(Debug)]

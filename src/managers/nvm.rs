@@ -28,6 +28,7 @@ pub fn manager() -> PackageManager {
             })
         }),
         list_cmd: Some(&["nvm", "list"]),
+        list_fn: None,
     }
 }
 

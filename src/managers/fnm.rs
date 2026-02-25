@@ -31,6 +31,7 @@ pub fn manager() -> PackageManager {
             });
         }),
         list_cmd: Some(&["fnm", "list"]),
+        list_fn: None,
     }
 }
 

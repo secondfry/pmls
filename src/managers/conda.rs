@@ -25,5 +25,6 @@ pub fn manager() -> PackageManager {
                 .map(|p| (format!("{}/pkgs", p), "$CONDA_PREFIX"))
         }),
         list_cmd: Some(&["conda", "list"]),
+        list_fn: None,
     }
 }

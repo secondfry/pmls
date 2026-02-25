@@ -19,5 +19,6 @@ pub fn manager() -> PackageManager {
             env.get("GEM_HOME").map(|v| (v.clone(), "$GEM_HOME"))
         }),
         list_cmd: Some(&["gem", "list"]),
+        list_fn: None,
     }
 }

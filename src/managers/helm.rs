@@ -30,6 +30,7 @@ pub fn manager() -> PackageManager {
             })
         }),
         list_cmd: Some(&["helm", "list", "-A"]),
+        list_fn: None,
     }
 }
 

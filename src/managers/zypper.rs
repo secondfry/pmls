@@ -11,5 +11,6 @@ pub fn manager() -> PackageManager {
         env_vars: &[],
         packages_dir: Some(|_env| Some(("/var/cache/zypp".to_string(), "default"))),
         list_cmd: Some(&["zypper", "packages", "--installed-only"]),
+        list_fn: None,
     }
 }

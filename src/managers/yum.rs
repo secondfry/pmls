@@ -11,5 +11,6 @@ pub fn manager() -> PackageManager {
         env_vars: &[],
         packages_dir: Some(|_env| Some(("/var/cache/yum".to_string(), "default"))),
         list_cmd: Some(&["yum", "list", "installed"]),
+        list_fn: None,
     }
 }

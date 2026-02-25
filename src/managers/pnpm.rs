@@ -19,5 +19,6 @@ pub fn manager() -> PackageManager {
             env.get("PNPM_HOME").map(|v| (v.clone(), "$PNPM_HOME"))
         }),
         list_cmd: Some(&["pnpm", "-g", "ls", "--depth=0"]),
+        list_fn: None,
     }
 }

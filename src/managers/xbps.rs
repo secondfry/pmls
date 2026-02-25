@@ -11,5 +11,6 @@ pub fn manager() -> PackageManager {
         env_vars: &["XBPS_TARGET_ARCH"],
         packages_dir: Some(|_env| Some(("/var/db/xbps".to_string(), "default"))),
         list_cmd: Some(&["xbps-query", "-l"]),
+        list_fn: None,
     }
 }

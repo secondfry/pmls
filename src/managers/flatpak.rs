@@ -14,5 +14,6 @@ pub fn manager() -> PackageManager {
         env_vars: &["FLATPAK_USER_DIR", "FLATPAK_SYSTEM_DIR"],
         packages_dir: Some(|_env| Some(("/var/lib/flatpak/app".to_string(), "default"))),
         list_cmd: Some(&["flatpak", "list"]),
+        list_fn: None,
     }
 }

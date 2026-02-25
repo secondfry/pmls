@@ -26,6 +26,7 @@ pub fn manager() -> PackageManager {
             })
         }),
         list_cmd: Some(&["cargo", "install", "--list"]),
+        list_fn: None,
     }
 }
 

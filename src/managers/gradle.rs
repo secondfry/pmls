@@ -27,6 +27,7 @@ pub fn manager() -> PackageManager {
             })
         }),
         list_cmd: None,
+        list_fn: None,
     }
 }
 

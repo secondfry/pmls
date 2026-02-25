@@ -28,6 +28,7 @@ pub fn manager() -> PackageManager {
             })
         }),
         list_cmd: Some(&["dotnet", "tool", "list", "-g"]),
+        list_fn: None,
     }
 }
 

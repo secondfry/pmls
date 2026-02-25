@@ -19,5 +19,6 @@ pub fn manager() -> PackageManager {
             Some(("/nix/store".to_string(), "default"))
         }),
         list_cmd: Some(&["nix", "profile", "list"]),
+        list_fn: None,
     }
 }

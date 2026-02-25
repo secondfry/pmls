@@ -21,5 +21,6 @@ pub fn manager() -> PackageManager {
                 .map(|p| (format!("{}\\lib", p), "$ChocolateyInstall"))
         }),
         list_cmd: Some(&["choco", "list", "--local-only"]),
+        list_fn: None,
     }
 }

@@ -22,5 +22,6 @@ pub fn manager() -> PackageManager {
             env.get("BUNDLE_PATH").map(|v| (v.clone(), "$BUNDLE_PATH"))
         }),
         list_cmd: Some(&["bundle", "list"]),
+        list_fn: None,
     }
 }

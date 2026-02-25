@@ -21,5 +21,6 @@ pub fn manager() -> PackageManager {
                 .map(|h| (std::path::Path::new(&h).join(".nuget").join("packages").to_string_lossy().into_owned(), "default"))
         }),
         list_cmd: None,
+        list_fn: None,
     }
 }

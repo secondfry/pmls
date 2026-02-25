@@ -71,24 +71,30 @@ fn print_human(list: bool, verbose: bool) {
             }
 
             if list {
-                match d.manager.list_cmd {
+                let env_map: manager::EnvMap = d.manager.env_vars.iter()
+                    .filter_map(|k| std::env::var(k).ok().map(|v| (*k, v)))
+                    .collect();
+                let result = if let Some(f) = d.manager.list_fn {
+                    Some(f(&env_map))
+                } else {
+                    d.manager.list_cmd.map(detect::run_list)
+                };
+                match result {
                     None => {
                         if verbose {
                             eprintln!("  {}", format!("(no list command for {})", d.manager.name).dimmed());
                         }
                     }
-                    Some(cmd) => match detect::run_list(cmd) {
-                        Ok(lines) => {
-                            for line in &lines {
-                                println!("  {}", line.dimmed());
-                            }
+                    Some(Ok(lines)) => {
+                        for line in &lines {
+                            println!("  {}", line.dimmed());
                         }
-                        Err(e) => {
-                            if verbose {
-                                eprintln!("  {}", format!("error listing {}: {}", d.manager.name, e).red());
-                            }
+                    }
+                    Some(Err(e)) => {
+                        if verbose {
+                            eprintln!("  {}", format!("error listing {}: {}", d.manager.name, e).red());
                         }
-                    },
+                    }
                 }
             }
         }
@@ -104,15 +110,21 @@ fn print_json(list: bool, verbose: bool) {
         .iter()
         .map(|d| {
             let (packages, list_error) = if list {
-                match d.manager.list_cmd {
+                let env_map: manager::EnvMap = d.manager.env_vars.iter()
+                    .filter_map(|k| std::env::var(k).ok().map(|v| (*k, v)))
+                    .collect();
+                let result = if let Some(f) = d.manager.list_fn {
+                    Some(f(&env_map))
+                } else {
+                    d.manager.list_cmd.map(detect::run_list)
+                };
+                match result {
                     None => (None, None),
-                    Some(cmd) => match detect::run_list(cmd) {
-                        Ok(lines) => (Some(lines), None),
-                        Err(e) => {
-                            let err = if verbose { Some(e) } else { None };
-                            (None, err)
-                        }
-                    },
+                    Some(Ok(lines)) => (Some(lines), None),
+                    Some(Err(e)) => {
+                        let err = if verbose { Some(e) } else { None };
+                        (None, err)
+                    }
                 }
             } else {
                 (None, None)

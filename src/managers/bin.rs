@@ -43,6 +43,7 @@ pub fn manager() -> PackageManager {
             config.default_path.map(|p| (p, "~/.config/bin/config.json"))
         }),
         list_cmd: Some(&["bin", "ls"]),
+        list_fn: None,
     }
 }
 

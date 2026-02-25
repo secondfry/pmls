@@ -11,5 +11,6 @@ pub fn manager() -> PackageManager {
         env_vars: &[],
         packages_dir: Some(|_env| Some(("/var/lib/eopkg/package".to_string(), "default"))),
         list_cmd: Some(&["eopkg", "list-installed"]),
+        list_fn: None,
     }
 }

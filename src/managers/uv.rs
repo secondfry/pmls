@@ -21,5 +21,6 @@ pub fn manager() -> PackageManager {
             env.get("UV_TOOL_DIR").map(|v| (v.clone(), "$UV_TOOL_DIR"))
         }),
         list_cmd: Some(&["uv", "tool", "list"]),
+        list_fn: None,
     }
 }

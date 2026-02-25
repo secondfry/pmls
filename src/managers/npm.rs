@@ -29,5 +29,6 @@ pub fn manager() -> PackageManager {
             return Some(("/usr/local/lib/node_modules".to_string(), "default"));
         }),
         list_cmd: Some(&["npm", "-g", "ls", "--depth=0"]),
+        list_fn: None,
     }
 }

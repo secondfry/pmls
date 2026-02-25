@@ -14,5 +14,6 @@ pub fn manager() -> PackageManager {
         env_vars: &[],
         packages_dir: Some(|_env| Some(("/opt/local/var/macports/registry".to_string(), "default"))),
         list_cmd: Some(&["port", "installed"]),
+        list_fn: None,
     }
 }

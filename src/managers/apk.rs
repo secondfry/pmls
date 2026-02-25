@@ -11,5 +11,6 @@ pub fn manager() -> PackageManager {
         env_vars: &[],
         packages_dir: Some(|_env| Some(("/lib/apk/db".to_string(), "default"))),
         list_cmd: Some(&["apk", "list", "--installed"]),
+        list_fn: None,
     }
 }

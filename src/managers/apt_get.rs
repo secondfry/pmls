@@ -15,5 +15,6 @@ pub fn manager() -> PackageManager {
         env_vars: &["APT_CONFIG", "DEBIAN_FRONTEND"],
         packages_dir: Some(|_env| Some(("/var/cache/apt/archives".to_string(), "default"))),
         list_cmd: None,
+        list_fn: None,
     }
 }

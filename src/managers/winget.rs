@@ -17,5 +17,6 @@ pub fn manager() -> PackageManager {
                 .map(|p| (format!("{}\\Microsoft\\WinGet\\Packages", p), "$LOCALAPPDATA"))
         }),
         list_cmd: Some(&["winget", "list", "--disable-interactivity", "--accept-source-agreements"]),
+        list_fn: None,
     }
 }

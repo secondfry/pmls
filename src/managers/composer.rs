@@ -27,6 +27,7 @@ pub fn manager() -> PackageManager {
             })
         }),
         list_cmd: Some(&["composer", "global", "show"]),
+        list_fn: None,
     }
 }
 
