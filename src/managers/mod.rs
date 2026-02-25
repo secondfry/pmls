@@ -14,6 +14,7 @@ pub mod dotnet;
 pub mod emerge;
 pub mod eopkg;
 pub mod flatpak;
+pub mod fnm;
 pub mod gem;
 pub mod golang;
 pub mod gradle;
@@ -23,9 +24,11 @@ pub mod maven;
 pub mod nix;
 pub mod npm;
 pub mod nuget;
+pub mod nvm;
 pub mod pacman;
 pub mod pip;
 pub mod pip3;
+pub mod pipenv;
 pub mod pnpm;
 pub mod scoop;
 pub mod snap;
@@ -65,11 +68,11 @@ pub fn system() -> Vec<PackageManager> {
 
 /// Language / ecosystem package managers (sorted by command).
 pub fn javascript() -> Vec<PackageManager> {
-    vec![bun::manager(), npm::manager(), pnpm::manager(), yarn::manager()]
+    vec![bun::manager(), fnm::manager(), npm::manager(), nvm::manager(), pnpm::manager(), yarn::manager()]
 }
 
 pub fn python() -> Vec<PackageManager> {
-    vec![conda::manager(), pip::manager(), pip3::manager(), uv::manager()]
+    vec![conda::manager(), pip::manager(), pip3::manager(), pipenv::manager(), uv::manager()]
 }
 
 pub fn ruby() -> Vec<PackageManager> {
