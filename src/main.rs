@@ -3,6 +3,7 @@ mod manager;
 mod managers;
 
 use clap::Parser;
+use colored::Colorize;
 use manager::{Category, JsonEntry};
 
 #[derive(Parser)]
@@ -58,30 +59,32 @@ fn print_human(
             continue;
         }
 
-        println!("# {}", category);
+        println!("{}", format!("# {}", category).cyan().bold());
         for d in &group {
-            let version = d.version.as_deref().unwrap_or("unknown");
+            let sep = "#".dimmed();
+            let name = d.manager.name.bold();
+            let version = d.version.as_deref().unwrap_or("unknown").yellow();
             match &d.packages_dir {
-                Some(dir) => println!("{} # {} # {}", d.manager.name, version, dir),
-                None      => println!("{} # {}", d.manager.name, version),
+                Some(dir) => println!("{} {} {} {} {}", name, sep, version, sep, dir.dimmed()),
+                None      => println!("{} {} {}", name, sep, version),
             }
 
             if list {
                 match d.manager.list_cmd {
                     None => {
                         if verbose {
-                            eprintln!("  (no list command for {})", d.manager.name);
+                            eprintln!("  {}", format!("(no list command for {})", d.manager.name).dimmed());
                         }
                     }
                     Some(cmd) => match detect::run_list(cmd) {
                         Ok(lines) => {
                             for line in &lines {
-                                println!("  {}", line);
+                                println!("  {}", line.dimmed());
                             }
                         }
                         Err(e) => {
                             if verbose {
-                                eprintln!("  error listing {}: {}", d.manager.name, e);
+                                eprintln!("  {}", format!("error listing {}: {}", d.manager.name, e).red());
                             }
                         }
                     },
