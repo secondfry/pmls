@@ -2,6 +2,12 @@
 name = "pmls"
 version = "1.2.1"
 edition = "2024"
+description = "Fast cross-platform CLI tool that lists installed package managers, their versions, and global package directories"
+license = "MIT"
+repository = "https://github.com/secondfry/pmls"
+homepage = "https://github.com/secondfry/pmls"
+keywords = ["package-manager", "cli", "detect", "toolchain"]
+categories = ["command-line-utilities", "development-tools"]
 
 [[bin]]
 name = "pmls"
