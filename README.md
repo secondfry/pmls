@@ -18,10 +18,10 @@ Download the binary for your platform from the [releases page](https://github.co
 
 | Platform | Asset name |
 |---|---|
-| Windows x86-64 | `pmls-x86_64-pc-windows-msvc.exe` |
-| Linux x86-64 | `pmls-x86_64-unknown-linux-gnu` |
-| macOS x86-64 | `pmls-x86_64-apple-darwin` |
-| macOS arm64 | `pmls-aarch64-apple-darwin` |
+| Windows x86-64 | `pmls_<version>_windows_amd64.exe` |
+| Linux x86-64 | `pmls_<version>_linux_amd64` |
+| macOS x86-64 | `pmls_<version>_darwin_amd64` |
+| macOS arm64 | `pmls_<version>_darwin_arm64` |
 
 ### From source
 
