@@ -19,7 +19,9 @@ Download the binary for your platform from the [releases page](https://github.co
 | Platform | Asset name |
 |---|---|
 | Windows x86-64 | `pmls_<version>_windows_amd64.exe` |
+| Windows arm64 | `pmls_<version>_windows_arm64.exe` |
 | Linux x86-64 | `pmls_<version>_linux_amd64` |
+| Linux arm64 | `pmls_<version>_linux_arm64` |
 | macOS x86-64 | `pmls_<version>_darwin_amd64` |
 | macOS arm64 | `pmls_<version>_darwin_arm64` |
 
