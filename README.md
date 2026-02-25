@@ -2,6 +2,35 @@
 
 A fast, cross-platform CLI tool written in Rust that lists which package managers are installed on the current machine, reports their version and global packages directory (with provenance), and can enumerate what each has installed.
 
+## Installation
+
+### Via [bin](https://github.com/marcosnils/bin)
+
+```sh
+bin install github.com/secondfry/pmls
+```
+
+`bin` resolves the latest GitHub release for your platform and installs the binary into your configured `bin` directory.
+
+### Pre-built binaries
+
+Download the binary for your platform from the [releases page](https://github.com/secondfry/pmls/releases) and place it somewhere on your `PATH`.
+
+| Platform | Asset name |
+|---|---|
+| Windows x86-64 | `pmls-x86_64-pc-windows-msvc.exe` |
+| Linux x86-64 | `pmls-x86_64-unknown-linux-gnu` |
+| macOS x86-64 | `pmls-x86_64-apple-darwin` |
+| macOS arm64 | `pmls-aarch64-apple-darwin` |
+
+### From source
+
+Requires a stable Rust toolchain (edition 2024).
+
+```sh
+cargo install --git https://github.com/secondfry/pmls
+```
+
 ## Usage
 
 ```
@@ -92,12 +121,10 @@ bin # bin # 0.23.1 # D:\Development\bin (~/.config/bin/config.json)
 
 With `--list --json` each entry gains a `"packages"` array (and `"list_error"` when `--verbose` is set and listing failed).
 
-## Build
-
-Requires a stable Rust toolchain (edition 2024).
+## Development build
 
 ```sh
-cargo build --release
+cargo build
 # binary at target/release/pmls  (pmls.exe on Windows)
 ```
 
