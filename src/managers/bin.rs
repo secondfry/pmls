@@ -1,4 +1,11 @@
+use serde::Deserialize;
+
 use crate::manager::{Category, PackageManager};
+
+#[derive(Deserialize)]
+struct BinConfig {
+    default_path: Option<String>,
+}
 
 pub fn manager() -> PackageManager {
     PackageManager {
@@ -8,20 +15,32 @@ pub fn manager() -> PackageManager {
         version_flag: "--version",
         version_extractor: Some(bin_version),
         config_paths: &[
-            "~/.config/bin/config.toml",
+            "~/.config/bin/config.json",
         ],
         env_vars: &[
             "BIN_PATH",
         ],
         packages_dir: Some(|| {
-            std::env::var("BIN_PATH").ok().or_else(|| {
-                home_dir().map(|h| {
-                    #[cfg(windows)]
-                    return format!("{}\\.local\\bin", h);
-                    #[cfg(not(windows))]
-                    return format!("{}/.local/bin", h);
-                })
-            })
+            if let Ok(p) = std::env::var("BIN_PATH") {
+                return Some(p);
+            }
+            let config_path = {
+                #[cfg(windows)]
+                {
+                    std::env::var("USERPROFILE")
+                        .ok()
+                        .map(|h| format!("{}\\.config\\bin\\config.json", h))
+                }
+                #[cfg(not(windows))]
+                {
+                    std::env::var("HOME")
+                        .ok()
+                        .map(|h| format!("{}/.config/bin/config.json", h))
+                }
+            }?;
+            let mut bytes = std::fs::read(config_path).ok()?;
+            let config: BinConfig = simd_json::from_slice(&mut bytes).ok()?;
+            config.default_path
         }),
     }
 }
@@ -35,11 +54,4 @@ fn bin_version(output: &str) -> Option<String> {
         .lines()
         .find(|l| l.trim().starts_with("bin version"))
         .map(|l| l.trim().to_string())
-}
-
-fn home_dir() -> Option<String> {
-    #[cfg(windows)]
-    return std::env::var("USERPROFILE").ok();
-    #[cfg(not(windows))]
-    return std::env::var("HOME").ok();
 }
