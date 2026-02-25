@@ -196,11 +196,11 @@ cargo build
 | Composer | `composer` | PHP | `composer global show` |
 | dotnet CLI | `dotnet` | .NET | `dotnet tool list -g` |
 | Conda | `conda` | Python / data science | `conda list` |
-| Go toolchain | `go` | Go | — (project-scoped) |
+| Go toolchain | `go` | Go | — (no list subcommand) |
 | Maven | `mvn` | Java | — (project-scoped) |
 | Gradle | `gradle` | Java / Kotlin | — (project-scoped) |
 
-> Go, Maven, and Gradle do not have meaningful global package lists — their dependencies are per-project — so `--list` produces no output for them.
+> Go has no subcommand to enumerate installed tools. Maven and Gradle do not have meaningful global package lists — their dependencies are per-project — so `--list` produces no output for them.
 
 ## How it works
 
