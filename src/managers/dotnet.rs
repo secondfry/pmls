@@ -21,7 +21,9 @@ pub fn manager() -> PackageManager {
         ],
         packages_dir: Some(|env| {
             env.get("NUGET_PACKAGES").cloned().or_else(|| {
-                home_dir().map(|h| format!("{}/.nuget/packages", h))
+                home_dir().map(|h| {
+                    std::path::Path::new(&h).join(".nuget").join("packages").to_string_lossy().into_owned()
+                })
             })
         }),
         list_cmd: Some(&["dotnet", "tool", "list", "-g"]),

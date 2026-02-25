@@ -17,7 +17,9 @@ pub fn manager() -> PackageManager {
         ],
         packages_dir: Some(|env| {
             env.get("BUN_INSTALL").cloned().or_else(|| {
-                home_dir().map(|h| format!("{}/.bun", h))
+                home_dir().map(|h| {
+                    std::path::Path::new(&h).join(".bun").to_string_lossy().into_owned()
+                })
             })
         }),
         list_cmd: Some(&["bun", "pm", "-g", "ls"]),

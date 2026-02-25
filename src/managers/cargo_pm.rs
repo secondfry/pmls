@@ -19,7 +19,9 @@ pub fn manager() -> PackageManager {
         ],
         packages_dir: Some(|env| {
             env.get("CARGO_HOME").cloned().or_else(|| {
-                home_dir().map(|p| format!("{}/.cargo/bin", p))
+                home_dir().map(|p| {
+                    std::path::Path::new(&p).join(".cargo").join("bin").to_string_lossy().into_owned()
+                })
             })
         }),
         list_cmd: Some(&["cargo", "install", "--list"]),

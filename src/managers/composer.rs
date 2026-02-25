@@ -20,7 +20,9 @@ pub fn manager() -> PackageManager {
         ],
         packages_dir: Some(|env| {
             env.get("COMPOSER_HOME").cloned().or_else(|| {
-                home_dir().map(|h| format!("{}/.composer/vendor", h))
+                home_dir().map(|h| {
+                    std::path::Path::new(&h).join(".composer").join("vendor").to_string_lossy().into_owned()
+                })
             })
         }),
         list_cmd: Some(&["composer", "global", "show"]),
