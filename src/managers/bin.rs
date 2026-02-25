@@ -4,7 +4,7 @@ pub fn manager() -> PackageManager {
     PackageManager {
         name: "bin",
         command: "bin",
-        category: Category::Universal,
+        category: Category::System,
         version_flag: "--version",
         version_extractor: Some(bin_version),
         config_paths: &[
