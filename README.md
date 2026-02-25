@@ -155,6 +155,15 @@ cargo build
 | Portage | `emerge` | — |
 | eopkg | `eopkg` | `eopkg list-installed` |
 | xbps | `xbps-query` | `xbps-query -l` |
+| Nala | `nala` | `nala list --installed` |
+| GNU Guix | `guix` | `guix package --list-installed` |
+
+### System — FreeBSD / Termux
+
+| Manager | Command | List command |
+|---|---|---|
+| pkg | `pkg` | `pkg info` |
+| pkgin | `pkgin` | `pkgin list` |
 
 ### System — macOS
 
@@ -169,38 +178,164 @@ cargo build
 |---|---|---|
 | bin | `bin` | `bin ls` |
 
-### Universal
+### Universal / polyglot
 
 | Manager | Command | List command |
 |---|---|---|
 | Nix | `nix` | `nix profile list` |
 | Helm | `helm` | `helm list -A` |
+| asdf | `asdf` | `asdf list` |
+| mise | `mise` | `mise ls` |
 
-### Language / ecosystem
+### Toolchain / version managers
+
+These managers govern which runtime version is active rather than installing packages; their `--list` output enumerates installed runtime versions.
 
 | Manager | Command | Ecosystem | List command |
 |---|---|---|---|
-| Cargo | `cargo` | Rust | `cargo install --list` |
-| npm | `npm` | Node.js | `npm -g ls --depth=0` |
-| Yarn | `yarn` | Node.js | `yarn global list --depth=0` |
-| pnpm | `pnpm` | Node.js | `pnpm -g ls --depth=0` |
-| Bun | `bun` | Node.js / Bun | `bun pm -g ls` |
-| nvm | `nvm` | Node.js | `nvm list` |
-| fnm | `fnm` | Node.js | `fnm list` |
-| pip | `pip` | Python | `pip list` |
-| pip3 | `pip3` | Python | `pip3 list` |
-| pipenv | `pipenv` | Python | — |
-| uv | `uv` | Python | `uv tool list` |
-| RubyGems | `gem` | Ruby | `gem list` |
-| Bundler | `bundle` | Ruby | `bundle list` |
-| Composer | `composer` | PHP | `composer global show` |
-| dotnet CLI | `dotnet` | .NET | `dotnet tool list -g` |
-| Conda | `conda` | Python / data science | `conda list` |
-| Go toolchain | `go` | Go | `go version -m` on each binary in GOBIN |
-| Maven | `mvn` | Java | — (project-scoped) |
-| Gradle | `gradle` | Java / Kotlin | — (project-scoped) |
+| rustup | `rustup` | Rust | `rustup toolchain list` |
+| pyenv | `pyenv` | Python | `pyenv versions` |
+| rbenv | `rbenv` | Ruby | `rbenv versions` |
+| RVM | `rvm` | Ruby | `rvm list` |
+| Volta | `volta` | Node.js | `volta list --format plain` |
+| nodenv | `nodenv` | Node.js | `nodenv versions` |
+| SDKMAN! | `sdk` | JVM | `sdk list` |
+| jenv | `jenv` | Java | `jenv versions` |
+| goenv | `goenv` | Go | `goenv versions` |
 
-> Maven and Gradle do not have meaningful global package lists — their dependencies are per-project — so `--list` produces no output for them.
+### Language / ecosystem
+
+#### Node.js / JavaScript
+
+| Manager | Command | List command |
+|---|---|---|
+| npm | `npm` | `npm -g ls --depth=0` |
+| Yarn | `yarn` | `yarn global list --depth=0` |
+| pnpm | `pnpm` | `pnpm -g ls --depth=0` |
+| Bun | `bun` | `bun pm -g ls` |
+| Deno | `deno` | `deno info` |
+| nvm | `nvm` | `nvm list` |
+| fnm | `fnm` | `fnm list` |
+| Corepack | `corepack` | — |
+
+#### Python
+
+| Manager | Command | List command |
+|---|---|---|
+| pip | `pip` | `pip list` |
+| pip3 | `pip3` | `pip3 list` |
+| pipenv | `pipenv` | — |
+| uv | `uv` | `uv tool list` |
+| Poetry | `poetry` | `poetry env list` |
+| PDM | `pdm` | `pdm list` |
+| Hatch | `hatch` | `hatch env show` |
+| Conda | `conda` | `conda list` |
+| Mamba | `mamba` | `mamba list` |
+| pixi | `pixi` | `pixi list` |
+
+#### Ruby
+
+| Manager | Command | List command |
+|---|---|---|
+| RubyGems | `gem` | `gem list` |
+| Bundler | `bundle` | `bundle list` |
+
+#### PHP
+
+| Manager | Command | List command |
+|---|---|---|
+| Composer | `composer` | `composer global show` |
+
+#### .NET
+
+| Manager | Command | List command |
+|---|---|---|
+| dotnet CLI | `dotnet` | `dotnet tool list -g` |
+
+#### Rust
+
+| Manager | Command | List command |
+|---|---|---|
+| Cargo | `cargo` | `cargo install --list` |
+| rustup | `rustup` | `rustup toolchain list` |
+
+#### Go
+
+| Manager | Command | List command |
+|---|---|---|
+| Go toolchain | `go` | `go version -m` on each binary in GOBIN |
+| goenv | `goenv` | `goenv versions` |
+
+#### Java / JVM
+
+| Manager | Command | List command |
+|---|---|---|
+| Maven | `mvn` | — (project-scoped) |
+| Gradle | `gradle` | — (project-scoped) |
+| sbt | `sbt` | — (project-scoped) |
+| Leiningen | `lein` | — (project-scoped) |
+| Coursier | `cs` | `cs list` |
+| Mill | `mill` | — (project-scoped) |
+| SDKMAN! | `sdk` | `sdk list` |
+| jenv | `jenv` | `jenv versions` |
+
+#### C / C++
+
+| Manager | Command | List command |
+|---|---|---|
+| vcpkg | `vcpkg` | `vcpkg list` |
+| Conan | `conan` | `conan list` |
+
+#### Elixir
+
+| Manager | Command | List command |
+|---|---|---|
+| Mix / Hex | `mix` | `mix hex.info` |
+
+#### Haskell
+
+| Manager | Command | List command |
+|---|---|---|
+| Stack | `stack` | `stack ls dependencies` |
+| Cabal | `cabal` | `cabal list --installed` |
+
+#### OCaml
+
+| Manager | Command | List command |
+|---|---|---|
+| opam | `opam` | `opam list` |
+
+#### Nim
+
+| Manager | Command | List command |
+|---|---|---|
+| Nimble | `nimble` | `nimble list --installed` |
+
+#### Lua
+
+| Manager | Command | List command |
+|---|---|---|
+| LuaRocks | `luarocks` | `luarocks list` |
+
+#### Perl
+
+| Manager | Command | List command |
+|---|---|---|
+| cpanminus | `cpanm` | — |
+
+#### Dart / Flutter
+
+| Manager | Command | List command |
+|---|---|---|
+| Flutter | `flutter` | — |
+
+#### Swift
+
+| Manager | Command | List command |
+|---|---|---|
+| Mint | `mint` | `mint list` |
+
+> Maven, Gradle, sbt, Leiningen, and Mill do not have meaningful global package lists — their dependencies are per-project — so `--list` produces no output for them.
 
 ## How it works
 
