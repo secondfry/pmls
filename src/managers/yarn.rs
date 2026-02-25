@@ -16,8 +16,8 @@ pub fn manager() -> PackageManager {
             "YARN_GLOBAL_FOLDER",
             "YARN_REGISTRY",
         ],
-        packages_dir: Some(|| {
-            std::env::var("YARN_GLOBAL_FOLDER").ok()
+        packages_dir: Some(|env| {
+            env.get("YARN_GLOBAL_FOLDER").cloned()
         }),
         list_cmd: Some(&["yarn", "global", "list", "--depth=0"]),
     }

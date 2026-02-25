@@ -14,7 +14,7 @@ pub fn manager() -> PackageManager {
             "/etc/apt/sources.list.d/",
         ],
         env_vars: &["APT_CONFIG", "DEBIAN_FRONTEND"],
-        packages_dir: Some(|| Some("/var/lib/apt/lists".to_string())),
+        packages_dir: Some(|_env| Some("/var/lib/apt/lists".to_string())),
         list_cmd: Some(&["apt", "list", "--installed"]),
     }
 }

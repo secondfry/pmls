@@ -16,9 +16,8 @@ pub fn manager() -> PackageManager {
             "ChocolateyBinRoot",
             "ChocolateyLastPathUpdate",
         ],
-        packages_dir: Some(|| {
-            std::env::var("ChocolateyInstall")
-                .ok()
+        packages_dir: Some(|env| {
+            env.get("ChocolateyInstall")
                 .map(|p| format!("{}\\lib", p))
         }),
         list_cmd: Some(&["choco", "list", "--local-only"]),

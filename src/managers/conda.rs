@@ -17,10 +17,9 @@ pub fn manager() -> PackageManager {
             "CONDA_ENVS_PATH",
             "CONDA_PKGS_DIRS",
         ],
-        packages_dir: Some(|| {
-            std::env::var("CONDA_PKGS_DIRS").ok().or_else(|| {
-                std::env::var("CONDA_PREFIX")
-                    .ok()
+        packages_dir: Some(|env| {
+            env.get("CONDA_PKGS_DIRS").cloned().or_else(|| {
+                env.get("CONDA_PREFIX")
                     .map(|p| format!("{}/pkgs", p))
             })
         }),

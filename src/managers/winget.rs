@@ -11,7 +11,7 @@ pub fn manager() -> PackageManager {
             "%LOCALAPPDATA%\\Microsoft\\WinGet\\Settings\\settings.json",
         ],
         env_vars: &[],
-        packages_dir: Some(|| {
+        packages_dir: Some(|_env| {
             std::env::var("LOCALAPPDATA")
                 .ok()
                 .map(|p| format!("{}\\Microsoft\\WinGet\\Packages", p))

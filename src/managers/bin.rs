@@ -20,8 +20,8 @@ pub fn manager() -> PackageManager {
         env_vars: &[
             "BIN_PATH",
         ],
-        packages_dir: Some(|| {
-            if let Ok(p) = std::env::var("BIN_PATH") {
+        packages_dir: Some(|env| {
+            if let Some(p) = env.get("BIN_PATH").cloned() {
                 return Some(p);
             }
             let config_path = {

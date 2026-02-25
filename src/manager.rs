@@ -1,4 +1,9 @@
+use std::collections::HashMap;
 use serde::Serialize;
+
+/// Resolved values of a manager's declared environment variables.
+/// Keys are the static variable names from `PackageManager::env_vars`.
+pub type EnvMap = HashMap<&'static str, String>;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Category {
@@ -36,7 +41,7 @@ pub struct PackageManager {
     /// Runtime function that resolves the primary directory where packages
     /// or binaries installed by this manager live.
     /// Returns `None` when the location cannot be determined at runtime.
-    pub packages_dir: Option<fn() -> Option<String>>,
+    pub packages_dir: Option<fn(&EnvMap) -> Option<String>>,
     /// Command + arguments used to list installed packages, e.g.
     /// `&["npm", "-g", "ls", "--depth=0"]`.
     /// The first element must be the executable; the rest are arguments.

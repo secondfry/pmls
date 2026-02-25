@@ -15,8 +15,8 @@ pub fn manager() -> PackageManager {
             "GEM_PATH",
             "BUNDLE_GEMFILE",
         ],
-        packages_dir: Some(|| {
-            std::env::var("GEM_HOME").ok()
+        packages_dir: Some(|env| {
+            env.get("GEM_HOME").cloned()
         }),
         list_cmd: Some(&["gem", "list"]),
     }

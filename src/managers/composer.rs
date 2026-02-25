@@ -18,8 +18,8 @@ pub fn manager() -> PackageManager {
             "COMPOSER_VENDOR_DIR",
             "COMPOSER_AUTH",
         ],
-        packages_dir: Some(|| {
-            std::env::var("COMPOSER_HOME").ok().or_else(|| {
+        packages_dir: Some(|env| {
+            env.get("COMPOSER_HOME").cloned().or_else(|| {
                 home_dir().map(|h| format!("{}/.composer/vendor", h))
             })
         }),

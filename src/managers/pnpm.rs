@@ -15,8 +15,8 @@ pub fn manager() -> PackageManager {
             "PNPM_HOME",
             "NPM_CONFIG_REGISTRY",
         ],
-        packages_dir: Some(|| {
-            std::env::var("PNPM_HOME").ok()
+        packages_dir: Some(|env| {
+            env.get("PNPM_HOME").cloned()
         }),
         list_cmd: Some(&["pnpm", "-g", "ls", "--depth=0"]),
     }

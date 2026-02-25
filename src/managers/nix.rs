@@ -12,9 +12,9 @@ pub fn manager() -> PackageManager {
             "~/.config/nix/nix.conf",
         ],
         env_vars: &["NIX_PATH", "NIX_STORE", "NIX_CONF_DIR"],
-        packages_dir: Some(|| {
-            std::env::var("NIX_STORE")
-                .ok()
+        packages_dir: Some(|env| {
+            env.get("NIX_STORE")
+                .cloned()
                 .or_else(|| Some("/nix/store".to_string()))
         }),
         list_cmd: Some(&["nix", "profile", "list"]),

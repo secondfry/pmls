@@ -17,9 +17,8 @@ pub fn manager() -> PackageManager {
             "NPM_TOKEN",
             "NODE_PATH",
         ],
-        packages_dir: Some(|| {
-            std::env::var("NPM_CONFIG_PREFIX").ok().or_else(|| {
-                // Common global prefix locations
+        packages_dir: Some(|env| {
+            env.get("NPM_CONFIG_PREFIX").cloned().or_else(|| {
                 #[cfg(windows)]
                 return std::env::var("APPDATA")
                     .ok()

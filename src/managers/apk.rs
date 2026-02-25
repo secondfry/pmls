@@ -9,7 +9,7 @@ pub fn manager() -> PackageManager {
         version_extractor: None,
         config_paths: &["/etc/apk/world", "/etc/apk/repositories"],
         env_vars: &[],
-        packages_dir: Some(|| Some("/lib/apk/db".to_string())),
+        packages_dir: Some(|_env| Some("/lib/apk/db".to_string())),
         list_cmd: Some(&["apk", "list", "--installed"]),
     }
 }

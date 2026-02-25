@@ -12,8 +12,8 @@ pub fn manager() -> PackageManager {
             "%APPDATA%\\NuGet\\NuGet.Config",
         ],
         env_vars: &["NUGET_PACKAGES", "NUGET_HTTP_CACHE_PATH"],
-        packages_dir: Some(|| {
-            std::env::var("NUGET_PACKAGES").ok().or_else(|| {
+        packages_dir: Some(|env| {
+            env.get("NUGET_PACKAGES").cloned().or_else(|| {
                 std::env::var("USERPROFILE")
                     .ok()
                     .map(|p| format!("{}\\.nuget\\packages", p))

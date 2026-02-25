@@ -18,8 +18,8 @@ pub fn manager() -> PackageManager {
             "HELM_DATA_HOME",
             "KUBECONFIG",
         ],
-        packages_dir: Some(|| {
-            std::env::var("HELM_DATA_HOME").ok().or_else(|| {
+        packages_dir: Some(|env| {
+            env.get("HELM_DATA_HOME").cloned().or_else(|| {
                 home_dir().map(|h| {
                     #[cfg(windows)]
                     return format!("{}\\AppData\\Roaming\\helm", h);

@@ -9,7 +9,7 @@ pub fn manager() -> PackageManager {
         version_extractor: None,
         config_paths: &["/etc/xbps.d/", "/usr/share/xbps.d/"],
         env_vars: &["XBPS_TARGET_ARCH"],
-        packages_dir: Some(|| Some("/var/db/xbps".to_string())),
+        packages_dir: Some(|_env| Some("/var/db/xbps".to_string())),
         list_cmd: Some(&["xbps-query", "-l"]),
     }
 }

@@ -17,8 +17,8 @@ pub fn manager() -> PackageManager {
             "UV_TOOL_DIR",
             "UV_PROJECT_ENVIRONMENT",
         ],
-        packages_dir: Some(|| {
-            std::env::var("UV_TOOL_DIR").ok()
+        packages_dir: Some(|env| {
+            env.get("UV_TOOL_DIR").cloned()
         }),
         list_cmd: Some(&["uv", "tool", "list"]),
     }

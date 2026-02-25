@@ -20,10 +20,9 @@ pub fn manager() -> PackageManager {
             "GONOSUMDB",
             "GOFLAGS",
         ],
-        packages_dir: Some(|| {
-            std::env::var("GOMODCACHE").ok().or_else(|| {
-                std::env::var("GOPATH")
-                    .ok()
+        packages_dir: Some(|env| {
+            env.get("GOMODCACHE").cloned().or_else(|| {
+                env.get("GOPATH")
                     .map(|p| format!("{}/pkg/mod", p))
             })
         }),

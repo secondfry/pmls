@@ -13,7 +13,7 @@ pub fn manager() -> PackageManager {
             "/etc/apt/sources.list",
         ],
         env_vars: &["APT_CONFIG", "DEBIAN_FRONTEND"],
-        packages_dir: Some(|| Some("/var/cache/apt/archives".to_string())),
+        packages_dir: Some(|_env| Some("/var/cache/apt/archives".to_string())),
         list_cmd: None,
     }
 }

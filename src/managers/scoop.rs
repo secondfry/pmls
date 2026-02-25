@@ -49,9 +49,10 @@ pub fn manager() -> PackageManager {
             "%APPDATA%\\scoop\\config.json",
         ],
         env_vars: &["SCOOP", "SCOOP_GLOBAL"],
-        packages_dir: Some(|| {
-            let root = std::env::var("SCOOP")
-                .unwrap_or_else(|_| {
+        packages_dir: Some(|env| {
+            let root = env.get("SCOOP")
+                .cloned()
+                .unwrap_or_else(|| {
                     format!(
                         "{}\\scoop",
                         std::env::var("USERPROFILE").unwrap_or_default()

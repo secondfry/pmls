@@ -17,8 +17,8 @@ pub fn manager() -> PackageManager {
             "RUSTUP_HOME",
             "CARGO_INCREMENTAL",
         ],
-        packages_dir: Some(|| {
-            std::env::var("CARGO_HOME").ok().or_else(|| {
+        packages_dir: Some(|env| {
+            env.get("CARGO_HOME").cloned().or_else(|| {
                 home_dir().map(|p| format!("{}/.cargo/bin", p))
             })
         }),

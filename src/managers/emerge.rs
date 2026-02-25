@@ -13,7 +13,7 @@ pub fn manager() -> PackageManager {
             "/etc/portage/package.mask/",
         ],
         env_vars: &["PORTAGE_TMPDIR", "PORTDIR", "DISTDIR", "PKGDIR"],
-        packages_dir: Some(|| Some("/var/db/pkg".to_string())),
+        packages_dir: Some(|_env| Some("/var/db/pkg".to_string())),
         list_cmd: None,
     }
 }

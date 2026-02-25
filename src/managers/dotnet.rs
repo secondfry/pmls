@@ -19,8 +19,8 @@ pub fn manager() -> PackageManager {
             "NUGET_PACKAGES",
             "NUGET_HTTP_CACHE_PATH",
         ],
-        packages_dir: Some(|| {
-            std::env::var("NUGET_PACKAGES").ok().or_else(|| {
+        packages_dir: Some(|env| {
+            env.get("NUGET_PACKAGES").cloned().or_else(|| {
                 home_dir().map(|h| format!("{}/.nuget/packages", h))
             })
         }),

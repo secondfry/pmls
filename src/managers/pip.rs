@@ -19,9 +19,8 @@ pub fn manager() -> PackageManager {
             "PIP_CONFIG_FILE",
             "VIRTUAL_ENV",
         ],
-        packages_dir: Some(|| {
-            std::env::var("VIRTUAL_ENV")
-                .ok()
+        packages_dir: Some(|env| {
+            env.get("VIRTUAL_ENV")
                 .map(|v| {
                     #[cfg(windows)]
                     return format!("{}\\Lib\\site-packages", v);

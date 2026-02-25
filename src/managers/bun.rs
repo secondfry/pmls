@@ -15,8 +15,8 @@ pub fn manager() -> PackageManager {
             "BUN_INSTALL",
             "BUN_INSTALL_CACHE_DIR",
         ],
-        packages_dir: Some(|| {
-            std::env::var("BUN_INSTALL").ok().or_else(|| {
+        packages_dir: Some(|env| {
+            env.get("BUN_INSTALL").cloned().or_else(|| {
                 home_dir().map(|h| format!("{}/.bun", h))
             })
         }),

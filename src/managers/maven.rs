@@ -18,7 +18,7 @@ pub fn manager() -> PackageManager {
             "MAVEN_OPTS",
             "MAVEN_CONFIG",
         ],
-        packages_dir: Some(|| {
+        packages_dir: Some(|_env| {
             home_dir().map(|h| format!("{}/.m2/repository", h))
         }),
         list_cmd: None,

@@ -20,10 +20,9 @@ pub fn manager() -> PackageManager {
             "HOMEBREW_CACHE",
             "HOMEBREW_NO_AUTO_UPDATE",
         ],
-        packages_dir: Some(|| {
-            std::env::var("HOMEBREW_CELLAR").ok().or_else(|| {
-                std::env::var("HOMEBREW_PREFIX")
-                    .ok()
+        packages_dir: Some(|env| {
+            env.get("HOMEBREW_CELLAR").cloned().or_else(|| {
+                env.get("HOMEBREW_PREFIX")
                     .map(|p| format!("{}/Cellar", p))
             })
         }),

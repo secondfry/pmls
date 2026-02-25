@@ -18,8 +18,8 @@ pub fn manager() -> PackageManager {
             "BUNDLE_GEMFILE",
             "BUNDLE_WITHOUT",
         ],
-        packages_dir: Some(|| {
-            std::env::var("BUNDLE_PATH").ok()
+        packages_dir: Some(|env| {
+            env.get("BUNDLE_PATH").cloned()
         }),
         list_cmd: Some(&["bundle", "list"]),
     }

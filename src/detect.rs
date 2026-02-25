@@ -1,6 +1,6 @@
 use std::process::Command;
 
-use crate::manager::{DetectedPackageManager, PackageManager};
+use crate::manager::{DetectedPackageManager, EnvMap, PackageManager};
 
 /// Returns `true` if the given command is reachable on `PATH`.
 pub fn command_exists(cmd: &str) -> bool {
@@ -49,7 +49,10 @@ pub fn detect(all: Vec<PackageManager>) -> Vec<DetectedPackageManager> {
         .filter_map(|pm| {
             if command_exists(pm.command) {
                 let version = get_version(pm.command, pm.version_flag, pm.version_extractor);
-                let packages_dir = pm.packages_dir.and_then(|f| f());
+                let env_map: EnvMap = pm.env_vars.iter()
+                    .filter_map(|k| std::env::var(k).ok().map(|v| (*k, v)))
+                    .collect();
+                let packages_dir = pm.packages_dir.map(|f| f(&env_map)).flatten();
                 Some(DetectedPackageManager { manager: pm, version, packages_dir })
             } else {
                 None

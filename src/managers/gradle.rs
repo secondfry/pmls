@@ -18,8 +18,8 @@ pub fn manager() -> PackageManager {
             "GRADLE_USER_HOME",
             "GRADLE_OPTS",
         ],
-        packages_dir: Some(|| {
-            std::env::var("GRADLE_USER_HOME").ok().or_else(|| {
+        packages_dir: Some(|env| {
+            env.get("GRADLE_USER_HOME").cloned().or_else(|| {
                 home_dir().map(|h| format!("{}/.gradle/caches", h))
             })
         }),
