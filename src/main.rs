@@ -5,7 +5,7 @@ mod managers;
 use clap::Parser;
 use colored::Colorize;
 use manager::JsonEntry;
-use managers::{language, system, universal};
+use managers::{system, universal, javascript, python, ruby, php, dotnet_tools, rust_tools, java_tools, go_tools};
 
 #[derive(Parser)]
 #[command(name = "detector", about = "Detect installed package managers")]
@@ -37,9 +37,16 @@ fn main() {
 
 fn print_human(list: bool, verbose: bool) {
     let groups = [
-        ("System",   detect::detect(system())),
-        ("Language", detect::detect(language())),
-        ("Universal", detect::detect(universal())),
+        ("System",      detect::detect(system())),
+        ("JavaScript",  detect::detect(javascript())),
+        ("Python",      detect::detect(python())),
+        ("Ruby",        detect::detect(ruby())),
+        ("PHP",         detect::detect(php())),
+        (".NET",        detect::detect(dotnet_tools())),
+        ("Rust",        detect::detect(rust_tools())),
+        ("Java",        detect::detect(java_tools())),
+        ("Go",          detect::detect(go_tools())),
+        ("Universal",   detect::detect(universal())),
     ];
 
     let mut first = true;

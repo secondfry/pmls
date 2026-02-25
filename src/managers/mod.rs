@@ -64,25 +64,41 @@ pub fn system() -> Vec<PackageManager> {
 }
 
 /// Language / ecosystem package managers (sorted by command).
+pub fn javascript() -> Vec<PackageManager> {
+    vec![bun::manager(), npm::manager(), pnpm::manager(), yarn::manager()]
+}
+
+pub fn python() -> Vec<PackageManager> {
+    vec![conda::manager(), pip::manager(), pip3::manager(), uv::manager()]
+}
+
+pub fn ruby() -> Vec<PackageManager> {
+    vec![bundler::manager(), gem::manager()]
+}
+
+pub fn php() -> Vec<PackageManager> {
+    vec![composer::manager()]
+}
+
+pub fn dotnet_tools() -> Vec<PackageManager> {
+    vec![dotnet::manager()]
+}
+
+pub fn rust_tools() -> Vec<PackageManager> {
+    vec![cargo_pm::manager()]
+}
+
+pub fn java_tools() -> Vec<PackageManager> {
+    vec![gradle::manager(), maven::manager()]
+}
+
+pub fn go_tools() -> Vec<PackageManager> {
+    vec![golang::manager()]
+}
+
+/// All language managers concatenated — used by all() and --json output.
 pub fn language() -> Vec<PackageManager> {
-    vec![
-        bun::manager(),
-        bundler::manager(),
-        cargo_pm::manager(),
-        composer::manager(),
-        conda::manager(),
-        dotnet::manager(),
-        gem::manager(),
-        golang::manager(),
-        gradle::manager(),
-        maven::manager(),
-        npm::manager(),
-        pip::manager(),
-        pip3::manager(),
-        pnpm::manager(),
-        uv::manager(),
-        yarn::manager(),
-    ]
+    [javascript(), python(), ruby(), php(), dotnet_tools(), rust_tools(), java_tools(), go_tools()].concat()
 }
 
 /// Universal / cross-platform package managers (sorted by command).
