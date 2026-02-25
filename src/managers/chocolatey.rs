@@ -1,0 +1,25 @@
+use crate::manager::{Category, PackageManager};
+
+pub fn manager() -> PackageManager {
+    PackageManager {
+        name: "Chocolatey",
+        command: "choco",
+        category: Category::System,
+        version_flag: "--version",
+        version_extractor: None,
+        config_paths: &[
+            "%ChocolateyInstall%\\config\\chocolatey.config",
+            "%ALLUSERSPROFILE%\\chocolatey\\config\\chocolatey.config",
+        ],
+        env_vars: &[
+            "ChocolateyInstall",
+            "ChocolateyBinRoot",
+            "ChocolateyLastPathUpdate",
+        ],
+        packages_dir: Some(|| {
+            std::env::var("ChocolateyInstall")
+                .ok()
+                .map(|p| format!("{}\\lib", p))
+        }),
+    }
+}

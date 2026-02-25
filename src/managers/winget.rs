@@ -1,0 +1,20 @@
+use crate::manager::{Category, PackageManager};
+
+pub fn manager() -> PackageManager {
+    PackageManager {
+        name: "Winget",
+        command: "winget",
+        category: Category::System,
+        version_flag: "--version",
+        version_extractor: None,
+        config_paths: &[
+            "%LOCALAPPDATA%\\Microsoft\\WinGet\\Settings\\settings.json",
+        ],
+        env_vars: &[],
+        packages_dir: Some(|| {
+            std::env::var("LOCALAPPDATA")
+                .ok()
+                .map(|p| format!("{}\\Microsoft\\WinGet\\Packages", p))
+        }),
+    }
+}
