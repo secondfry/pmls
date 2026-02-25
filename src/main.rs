@@ -8,7 +8,7 @@ use manager::JsonEntry;
 use managers::{system, universal, javascript, python, ruby, php, dotnet_tools, rust_tools, java_tools, go_tools};
 
 #[derive(Parser)]
-#[command(name = "detector", about = "Detect installed package managers")]
+#[command(name = "pmls", about = "List installed package managers")]
 struct Cli {
     /// List installed packages for each detected manager
     #[arg(short, long)]

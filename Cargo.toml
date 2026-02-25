@@ -1,7 +1,11 @@
 [package]
-name = "detect-package-managers"
+name = "pmls"
 version = "0.1.0"
 edition = "2024"
+
+[[bin]]
+name = "pmls"
+path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }
