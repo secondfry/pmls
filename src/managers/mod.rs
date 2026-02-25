@@ -1,6 +1,7 @@
 pub mod apt;
 pub mod apt_get;
 pub mod apk;
+pub mod bin;
 pub mod brew;
 pub mod bun;
 pub mod bundler;
@@ -62,6 +63,7 @@ pub fn all() -> Vec<PackageManager> {
         brew::manager(),
         macports::manager(),
         // ── Universal ─────────────────────────────────────────────────────────
+        bin::manager(),
         nix::manager(),
         helm::manager(),
         // ── Language / ecosystem ──────────────────────────────────────────────
