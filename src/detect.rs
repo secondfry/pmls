@@ -1,15 +1,14 @@
 use std::process::Command;
 
+use rayon::prelude::*;
+
 use crate::manager::{DetectedPackageManager, EnvMap, PackageManager};
 
 /// Returns `true` if the given command is reachable on `PATH`.
+/// Uses an in-process lookup via the `which` crate rather than spawning a
+/// `where`/`which` subprocess, which is meaningfully faster at scale.
 pub fn command_exists(cmd: &str) -> bool {
-    #[cfg(windows)]
-    let result = Command::new("where").arg(cmd).output();
-    #[cfg(not(windows))]
-    let result = Command::new("which").arg(cmd).output();
-
-    result.map(|o| o.status.success()).unwrap_or(false)
+    which::which(cmd).is_ok()
 }
 
 /// Runs `cmd <flag>` and returns a version string.
@@ -43,25 +42,63 @@ pub fn get_version(
         .map(|l| l.trim().to_string())
 }
 
+/// Probe and detect a single manager, returning `Some` if it exists on PATH.
+fn probe(pm: PackageManager) -> Option<DetectedPackageManager> {
+    if !command_exists(pm.command) {
+        return None;
+    }
+    let version = get_version(pm.command, pm.version_flag, pm.version_extractor);
+    let env_map: EnvMap = pm.env_vars.iter()
+        .filter_map(|k| std::env::var(k).ok().map(|v| (*k, v)))
+        .collect();
+    let (packages_dir, packages_dir_source) = match pm.packages_dir.and_then(|f| f(&env_map)) {
+        Some((path, src)) => (Some(path), Some(src)),
+        None => (None, None),
+    };
+    Some(DetectedPackageManager { manager: pm, version, packages_dir, packages_dir_source })
+}
+
 /// Probes PATH for every known package manager and returns the detected ones.
+/// Detection is parallelised across all managers using rayon — each manager's
+/// PATH probe and version subprocess run concurrently on the thread pool.
+/// Use `detect_grouped` when you need results bucketed by category label.
+#[allow(dead_code)]
 pub fn detect(all: Vec<PackageManager>) -> Vec<DetectedPackageManager> {
-    all.into_iter()
-        .filter_map(|pm| {
-            if command_exists(pm.command) {
-                let version = get_version(pm.command, pm.version_flag, pm.version_extractor);
-                let env_map: EnvMap = pm.env_vars.iter()
-                    .filter_map(|k| std::env::var(k).ok().map(|v| (*k, v)))
-                    .collect();
-                let (packages_dir, packages_dir_source) = match pm.packages_dir.and_then(|f| f(&env_map)) {
-                    Some((path, src)) => (Some(path), Some(src)),
-                    None => (None, None),
-                };
-                Some(DetectedPackageManager { manager: pm, version, packages_dir, packages_dir_source })
-            } else {
-                None
-            }
-        })
-        .collect()
+    all.into_par_iter().filter_map(probe).collect()
+}
+
+/// Detects all managers in one parallel pass over every group at once, then
+/// re-buckets results into the original group order.
+///
+/// This is faster than calling `detect()` per group sequentially because the
+/// rayon thread pool sees the full set of 77+ managers simultaneously and
+/// can schedule their subprocesses optimally across all CPU cores.
+pub fn detect_grouped(
+    groups: Vec<(&'static str, Vec<PackageManager>)>,
+) -> Vec<(&'static str, Vec<DetectedPackageManager>)> {
+    // Flatten to (group_index, manager) so we can re-bucket after parallel detection.
+    let labeled: Vec<(usize, PackageManager)> = groups
+        .iter()
+        .enumerate()
+        .flat_map(|(i, (_, managers))| managers.iter().map(move |pm| (i, pm.clone())))
+        .collect();
+
+    // Single parallel pass over all managers across all groups.
+    let mut detected: Vec<(usize, DetectedPackageManager)> = labeled
+        .into_par_iter()
+        .filter_map(|(idx, pm)| probe(pm).map(|d| (idx, d)))
+        .collect();
+
+    // Stable sort keeps managers within each group in their original order.
+    detected.sort_by_key(|(i, _)| *i);
+
+    // Re-bucket by group index, preserving group order.
+    let mut result: Vec<(&'static str, Vec<DetectedPackageManager>)> =
+        groups.iter().map(|(label, _)| (*label, Vec::new())).collect();
+    for (idx, d) in detected {
+        result[idx].1.push(d);
+    }
+    result
 }
 
 /// Runs the given list command and returns its output lines.

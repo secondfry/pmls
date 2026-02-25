@@ -5,7 +5,37 @@ mod managers;
 use clap::Parser;
 use colored::Colorize;
 use manager::JsonEntry;
-use managers::{system, universal, javascript, python, ruby, php, dotnet_tools, rust_tools, java_tools, go_tools};
+use managers::{
+    system, universal,
+    javascript, python, ruby, php, dotnet_tools, rust_tools, java_tools, go_tools,
+    c_tools, elixir_tools, haskell_tools, ocaml_tools, nim_tools, lua_tools,
+    perl_tools, dart_tools, swift_tools,
+};
+
+/// The canonical ordered list of display groups, used by both human and JSON output.
+fn labeled_groups() -> Vec<(&'static str, Vec<manager::PackageManager>)> {
+    vec![
+        ("System",      system()),
+        ("JavaScript",  javascript()),
+        ("Python",      python()),
+        ("Ruby",        ruby()),
+        ("PHP",         php()),
+        (".NET",        dotnet_tools()),
+        ("Rust",        rust_tools()),
+        ("Java",        java_tools()),
+        ("Go",          go_tools()),
+        ("C/C++",       c_tools()),
+        ("Elixir",      elixir_tools()),
+        ("Haskell",     haskell_tools()),
+        ("OCaml",       ocaml_tools()),
+        ("Nim",         nim_tools()),
+        ("Lua",         lua_tools()),
+        ("Perl",        perl_tools()),
+        ("Dart",        dart_tools()),
+        ("Swift",       swift_tools()),
+        ("Universal",   universal()),
+    ]
+}
 
 #[derive(Parser)]
 #[command(name = "pmls", about = "List installed package managers")]
@@ -36,18 +66,8 @@ fn main() {
 // ── Human-readable output ─────────────────────────────────────────────────────
 
 fn print_human(list: bool, verbose: bool) {
-    let groups = [
-        ("System",      detect::detect(system())),
-        ("JavaScript",  detect::detect(javascript())),
-        ("Python",      detect::detect(python())),
-        ("Ruby",        detect::detect(ruby())),
-        ("PHP",         detect::detect(php())),
-        (".NET",        detect::detect(dotnet_tools())),
-        ("Rust",        detect::detect(rust_tools())),
-        ("Java",        detect::detect(java_tools())),
-        ("Go",          detect::detect(go_tools())),
-        ("Universal",   detect::detect(universal())),
-    ];
+    // One parallel pass over all 77+ managers at once.
+    let groups = detect::detect_grouped(labeled_groups());
 
     let mut first = true;
     for (label, group) in &groups {
@@ -105,7 +125,11 @@ fn print_human(list: bool, verbose: bool) {
 // ── JSON output ───────────────────────────────────────────────────────────────
 
 fn print_json(list: bool, verbose: bool) {
-    let detected = detect::detect(managers::all());
+    // Flatten the grouped results into a single ordered list for JSON.
+    let detected: Vec<_> = detect::detect_grouped(labeled_groups())
+        .into_iter()
+        .flat_map(|(_, group)| group)
+        .collect();
     let entries: Vec<JsonEntry> = detected
         .iter()
         .map(|d| {
