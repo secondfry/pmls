@@ -41,48 +41,45 @@ use crate::manager::PackageManager;
 /// Returns the full catalog of known package managers.
 pub fn all() -> Vec<PackageManager> {
     vec![
-        // ── Windows ──────────────────────────────────────────────────────────
-        chocolatey::manager(),
-        scoop::manager(),
-        winget::manager(),
-        nuget::manager(),
-        // ── Linux ─────────────────────────────────────────────────────────────
+        // ── System (apk … zypper, sorted by command) ─────────────────────────
+        apk::manager(),
         apt::manager(),
         apt_get::manager(),
-        pacman::manager(),
+        bin::manager(),
+        brew::manager(),
+        chocolatey::manager(),
         dnf::manager(),
-        yum::manager(),
-        zypper::manager(),
-        apk::manager(),
-        snap::manager(),
-        flatpak::manager(),
         emerge::manager(),
         eopkg::manager(),
-        xbps::manager(),
-        // ── macOS ─────────────────────────────────────────────────────────────
-        brew::manager(),
+        flatpak::manager(),
+        nuget::manager(),
+        pacman::manager(),
         macports::manager(),
-        // ── Cross-platform system ─────────────────────────────────────────────
-        bin::manager(),
-        // ── Universal ─────────────────────────────────────────────────────────
-        nix::manager(),
-        helm::manager(),
-        // ── Language / ecosystem ──────────────────────────────────────────────
-        cargo_pm::manager(),
-        npm::manager(),
-        yarn::manager(),
-        pnpm::manager(),
+        scoop::manager(),
+        snap::manager(),
+        winget::manager(),
+        xbps::manager(),
+        yum::manager(),
+        zypper::manager(),
+        // ── Language / ecosystem (bun … yarn, sorted by command) ─────────────
         bun::manager(),
+        bundler::manager(),
+        cargo_pm::manager(),
+        composer::manager(),
+        conda::manager(),
+        dotnet::manager(),
+        gem::manager(),
+        golang::manager(),
+        gradle::manager(),
+        maven::manager(),
+        npm::manager(),
         pip::manager(),
         pip3::manager(),
+        pnpm::manager(),
         uv::manager(),
-        gem::manager(),
-        bundler::manager(),
-        composer::manager(),
-        golang::manager(),
-        maven::manager(),
-        gradle::manager(),
-        dotnet::manager(),
-        conda::manager(),
+        yarn::manager(),
+        // ── Universal (helm … nix, sorted by command) ─────────────────────────
+        helm::manager(),
+        nix::manager(),
     ]
 }
