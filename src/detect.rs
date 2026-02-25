@@ -57,3 +57,39 @@ pub fn detect(all: Vec<PackageManager>) -> Vec<DetectedPackageManager> {
         })
         .collect()
 }
+
+/// Runs the given list command and returns its output lines.
+///
+/// On Windows the command is dispatched through `cmd /C` so that `.cmd`/`.bat`
+/// shims are resolved.  Returns `Ok(lines)` on success or `Err(stderr)` on
+/// failure / non-zero exit.
+pub fn run_list(cmd: &[&'static str]) -> Result<Vec<String>, String> {
+    let (exe, args) = cmd.split_first().expect("list_cmd must not be empty");
+
+    #[cfg(windows)]
+    let output = {
+        let mut full_args: Vec<&str> = vec!["/C", exe];
+        full_args.extend_from_slice(args);
+        Command::new("cmd").args(&full_args).output()
+    };
+    #[cfg(not(windows))]
+    let output = Command::new(exe).args(args).output();
+
+    let output = output.map_err(|e| e.to_string())?;
+
+    if output.status.success() {
+        let text = String::from_utf8_lossy(&output.stdout);
+        Ok(text
+            .lines()
+            .filter(|l| !l.trim().is_empty())
+            .map(|l| l.to_string())
+            .collect())
+    } else {
+        let err = String::from_utf8_lossy(&output.stderr).trim().to_string();
+        Err(if err.is_empty() {
+            format!("exited with {}", output.status)
+        } else {
+            err
+        })
+    }
+}

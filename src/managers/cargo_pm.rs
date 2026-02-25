@@ -22,6 +22,7 @@ pub fn manager() -> PackageManager {
                 home_dir().map(|p| format!("{}/.cargo/bin", p))
             })
         }),
+        list_cmd: Some(&["cargo", "install", "--list"]),
     }
 }
 

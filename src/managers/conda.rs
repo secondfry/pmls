@@ -24,5 +24,6 @@ pub fn manager() -> PackageManager {
                     .map(|p| format!("{}/pkgs", p))
             })
         }),
+        list_cmd: Some(&["conda", "list"]),
     }
 }

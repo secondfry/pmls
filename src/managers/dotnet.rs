@@ -24,6 +24,7 @@ pub fn manager() -> PackageManager {
                 home_dir().map(|h| format!("{}/.nuget/packages", h))
             })
         }),
+        list_cmd: Some(&["dotnet", "tool", "list", "-g"]),
     }
 }
 

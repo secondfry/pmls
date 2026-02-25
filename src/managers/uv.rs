@@ -20,5 +20,6 @@ pub fn manager() -> PackageManager {
         packages_dir: Some(|| {
             std::env::var("UV_TOOL_DIR").ok()
         }),
+        list_cmd: Some(&["uv", "tool", "list"]),
     }
 }

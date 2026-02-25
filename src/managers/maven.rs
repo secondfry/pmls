@@ -21,6 +21,7 @@ pub fn manager() -> PackageManager {
         packages_dir: Some(|| {
             home_dir().map(|h| format!("{}/.m2/repository", h))
         }),
+        list_cmd: None,
     }
 }
 

@@ -20,6 +20,7 @@ pub fn manager() -> PackageManager {
                 home_dir().map(|h| format!("{}/.bun", h))
             })
         }),
+        list_cmd: Some(&["bun", "pm", "-g", "ls"]),
     }
 }
 

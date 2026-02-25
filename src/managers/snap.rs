@@ -10,5 +10,6 @@ pub fn manager() -> PackageManager {
         config_paths: &["/etc/snap/"],
         env_vars: &["SNAP", "SNAP_DATA", "SNAP_COMMON", "SNAP_USER_DATA"],
         packages_dir: Some(|| Some("/snap".to_string())),
+        list_cmd: Some(&["snap", "list"]),
     }
 }

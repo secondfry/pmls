@@ -13,5 +13,6 @@ pub fn manager() -> PackageManager {
         ],
         env_vars: &[],
         packages_dir: Some(|| Some("/opt/local/var/macports/registry".to_string())),
+        list_cmd: Some(&["port", "installed"]),
     }
 }

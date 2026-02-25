@@ -18,5 +18,6 @@ pub fn manager() -> PackageManager {
         packages_dir: Some(|| {
             std::env::var("GEM_HOME").ok()
         }),
+        list_cmd: Some(&["gem", "list"]),
     }
 }

@@ -27,5 +27,6 @@ pub fn manager() -> PackageManager {
                     .map(|p| format!("{}/pkg/mod", p))
             })
         }),
+        list_cmd: None,
     }
 }

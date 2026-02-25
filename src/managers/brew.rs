@@ -27,5 +27,6 @@ pub fn manager() -> PackageManager {
                     .map(|p| format!("{}/Cellar", p))
             })
         }),
+        list_cmd: Some(&["brew", "list"]),
     }
 }

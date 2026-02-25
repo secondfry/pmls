@@ -23,6 +23,7 @@ pub fn manager() -> PackageManager {
                 home_dir().map(|h| format!("{}/.gradle/caches", h))
             })
         }),
+        list_cmd: None,
     }
 }
 

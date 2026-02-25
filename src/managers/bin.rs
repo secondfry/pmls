@@ -42,6 +42,7 @@ pub fn manager() -> PackageManager {
             let config: BinConfig = simd_json::from_slice(&mut bytes).ok()?;
             config.default_path
         }),
+        list_cmd: Some(&["bin", "ls"]),
     }
 }
 
@@ -53,5 +54,6 @@ fn bin_version(output: &str) -> Option<String> {
     output
         .lines()
         .find(|l| l.trim().starts_with("bin version"))
-        .map(|l| l.trim().to_string())
+        .and_then(|l| l.trim().strip_prefix("bin version"))
+        .map(|v| v.trim().to_string())
 }

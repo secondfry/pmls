@@ -15,5 +15,6 @@ pub fn manager() -> PackageManager {
         ],
         env_vars: &["APT_CONFIG", "DEBIAN_FRONTEND"],
         packages_dir: Some(|| Some("/var/lib/apt/lists".to_string())),
+        list_cmd: Some(&["apt", "list", "--installed"]),
     }
 }

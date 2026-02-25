@@ -10,5 +10,6 @@ pub fn manager() -> PackageManager {
         config_paths: &["/etc/pacman.conf", "/etc/pacman.d/mirrorlist"],
         env_vars: &[],
         packages_dir: Some(|| Some("/var/lib/pacman/local".to_string())),
+        list_cmd: Some(&["pacman", "-Q"]),
     }
 }

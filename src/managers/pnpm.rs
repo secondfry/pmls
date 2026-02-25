@@ -18,5 +18,6 @@ pub fn manager() -> PackageManager {
         packages_dir: Some(|| {
             std::env::var("PNPM_HOME").ok()
         }),
+        list_cmd: Some(&["pnpm", "-g", "ls", "--depth=0"]),
     }
 }

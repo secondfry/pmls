@@ -19,5 +19,6 @@ pub fn manager() -> PackageManager {
                     .map(|p| format!("{}\\.nuget\\packages", p))
             })
         }),
+        list_cmd: None,
     }
 }

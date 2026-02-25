@@ -19,5 +19,6 @@ pub fn manager() -> PackageManager {
         packages_dir: Some(|| {
             std::env::var("YARN_GLOBAL_FOLDER").ok()
         }),
+        list_cmd: Some(&["yarn", "global", "list", "--depth=0"]),
     }
 }

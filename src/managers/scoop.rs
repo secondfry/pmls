@@ -59,5 +59,6 @@ pub fn manager() -> PackageManager {
                 });
             Some(format!("{}\\apps", root))
         }),
+        list_cmd: Some(&["scoop", "list"]),
     }
 }

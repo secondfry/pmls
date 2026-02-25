@@ -21,5 +21,6 @@ pub fn manager() -> PackageManager {
         packages_dir: Some(|| {
             std::env::var("BUNDLE_PATH").ok()
         }),
+        list_cmd: Some(&["bundle", "list"]),
     }
 }

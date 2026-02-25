@@ -21,5 +21,6 @@ pub fn manager() -> PackageManager {
                 .ok()
                 .map(|p| format!("{}\\lib", p))
         }),
+        list_cmd: Some(&["choco", "list", "--local-only"]),
     }
 }

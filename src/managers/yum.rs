@@ -10,5 +10,6 @@ pub fn manager() -> PackageManager {
         config_paths: &["/etc/yum.conf", "/etc/yum.repos.d/"],
         env_vars: &[],
         packages_dir: Some(|| Some("/var/cache/yum".to_string())),
+        list_cmd: Some(&["yum", "list", "installed"]),
     }
 }

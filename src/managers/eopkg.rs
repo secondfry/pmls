@@ -10,5 +10,6 @@ pub fn manager() -> PackageManager {
         config_paths: &["/etc/eopkg/eopkg.conf"],
         env_vars: &[],
         packages_dir: Some(|| Some("/var/lib/eopkg/package".to_string())),
+        list_cmd: Some(&["eopkg", "list-installed"]),
     }
 }

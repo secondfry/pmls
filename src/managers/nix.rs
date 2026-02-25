@@ -17,5 +17,6 @@ pub fn manager() -> PackageManager {
                 .ok()
                 .or_else(|| Some("/nix/store".to_string()))
         }),
+        list_cmd: Some(&["nix", "profile", "list"]),
     }
 }

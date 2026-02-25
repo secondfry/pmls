@@ -23,6 +23,7 @@ pub fn manager() -> PackageManager {
                 home_dir().map(|h| format!("{}/.composer/vendor", h))
             })
         }),
+        list_cmd: Some(&["composer", "global", "show"]),
     }
 }
 

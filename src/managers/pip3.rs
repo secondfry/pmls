@@ -29,5 +29,6 @@ pub fn manager() -> PackageManager {
                     return format!("{}/lib/python/site-packages", v);
                 })
         }),
+        list_cmd: Some(&["pip3", "list"]),
     }
 }
