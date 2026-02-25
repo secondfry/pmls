@@ -1,6 +1,6 @@
 [package]
 name = "pmls"
-version = "1.2.1"
+version = "1.2.2"
 edition = "2024"
 description = "Fast cross-platform CLI tool that lists installed package managers, their versions, and global package directories"
 license = "MIT"
