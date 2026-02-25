@@ -4,7 +4,8 @@ mod managers;
 
 use clap::Parser;
 use colored::Colorize;
-use manager::{Category, JsonEntry};
+use manager::JsonEntry;
+use managers::{language, system, universal};
 
 #[derive(Parser)]
 #[command(name = "detector", about = "Detect installed package managers")]
@@ -24,43 +25,34 @@ struct Cli {
 
 fn main() {
     let cli = Cli::parse();
-    let detected = detect::detect(managers::all());
-
-    if detected.is_empty() {
-        if cli.json {
-            println!("[]");
-        } else {
-            eprintln!("No package managers detected.");
-        }
-        return;
-    }
 
     if cli.json {
-        print_json(&detected, cli.list, cli.verbose);
+        print_json(cli.list, cli.verbose);
     } else {
-        print_human(&detected, cli.list, cli.verbose);
+        print_human(cli.list, cli.verbose);
     }
 }
 
 // ── Human-readable output ─────────────────────────────────────────────────────
 
-fn print_human(
-    detected: &[manager::DetectedPackageManager],
-    list: bool,
-    verbose: bool,
-) {
-    for category in [Category::System, Category::Language, Category::Universal] {
-        let group: Vec<_> = detected
-            .iter()
-            .filter(|d| d.manager.category == category)
-            .collect();
+fn print_human(list: bool, verbose: bool) {
+    let groups = [
+        ("System",   detect::detect(system())),
+        ("Language", detect::detect(language())),
+        ("Universal", detect::detect(universal())),
+    ];
 
+    let mut first = true;
+    for (label, group) in &groups {
         if group.is_empty() {
             continue;
         }
-
-        println!("{}", format!("# {}", category).cyan().bold());
-        for d in &group {
+        if !first {
+            println!();
+        }
+        first = false;
+        println!("{}", format!("# {label}").cyan().bold());
+        for d in group {
             let sep = "#".dimmed();
             let cmd = d.manager.command.bold();
             let name = d.manager.name.dimmed();
@@ -92,17 +84,14 @@ fn print_human(
                 }
             }
         }
-        println!();
     }
+    println!();
 }
 
 // ── JSON output ───────────────────────────────────────────────────────────────
 
-fn print_json(
-    detected: &[manager::DetectedPackageManager],
-    list: bool,
-    verbose: bool,
-) {
+fn print_json(list: bool, verbose: bool) {
+    let detected = detect::detect(managers::all());
     let entries: Vec<JsonEntry> = detected
         .iter()
         .map(|d| {

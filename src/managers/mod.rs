@@ -38,10 +38,9 @@ pub mod zypper;
 
 use crate::manager::PackageManager;
 
-/// Returns the full catalog of known package managers.
-pub fn all() -> Vec<PackageManager> {
+/// System-level package managers (sorted by command).
+pub fn system() -> Vec<PackageManager> {
     vec![
-        // ── System (apk … zypper, sorted by command) ─────────────────────────
         apk::manager(),
         apt::manager(),
         apt_get::manager(),
@@ -52,16 +51,21 @@ pub fn all() -> Vec<PackageManager> {
         emerge::manager(),
         eopkg::manager(),
         flatpak::manager(),
+        macports::manager(),
         nuget::manager(),
         pacman::manager(),
-        macports::manager(),
         scoop::manager(),
         snap::manager(),
         winget::manager(),
         xbps::manager(),
         yum::manager(),
         zypper::manager(),
-        // ── Language / ecosystem (bun … yarn, sorted by command) ─────────────
+    ]
+}
+
+/// Language / ecosystem package managers (sorted by command).
+pub fn language() -> Vec<PackageManager> {
+    vec![
         bun::manager(),
         bundler::manager(),
         cargo_pm::manager(),
@@ -78,8 +82,18 @@ pub fn all() -> Vec<PackageManager> {
         pnpm::manager(),
         uv::manager(),
         yarn::manager(),
-        // ── Universal (helm … nix, sorted by command) ─────────────────────────
+    ]
+}
+
+/// Universal / cross-platform package managers (sorted by command).
+pub fn universal() -> Vec<PackageManager> {
+    vec![
         helm::manager(),
         nix::manager(),
     ]
+}
+
+/// Full catalog — all categories concatenated.
+pub fn all() -> Vec<PackageManager> {
+    [system(), language(), universal()].concat()
 }
