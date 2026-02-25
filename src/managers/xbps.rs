@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "XBPS",
+        name: "X Binary Package System",
         command: "xbps-install",
         category: Category::System,
         version_flag: "--version",

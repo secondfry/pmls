@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "YUM",
+        name: "Yellowdog Updater Modified",
         command: "yum",
         category: Category::System,
         version_flag: "--version",

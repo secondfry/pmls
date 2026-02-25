@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "Helm (K8s)",
+        name: "Helm",
         command: "helm",
         category: Category::Universal,
         version_flag: "version",

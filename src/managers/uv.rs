@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "uv (Python)",
+        name: "uv",
         command: "uv",
         category: Category::Language,
         version_flag: "--version",

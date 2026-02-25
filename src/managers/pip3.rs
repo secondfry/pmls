@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "pip3 (Python)",
+        name: "package installer for Python",
         command: "pip3",
         category: Category::Language,
         version_flag: "--version",

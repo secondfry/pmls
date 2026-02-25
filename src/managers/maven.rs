@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "Maven",
+        name: "Apache Maven",
         command: "mvn",
         category: Category::Language,
         version_flag: "--version",

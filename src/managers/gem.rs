@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "Gem (Ruby)",
+        name: "RubyGems",
         command: "gem",
         category: Category::Language,
         version_flag: "--version",

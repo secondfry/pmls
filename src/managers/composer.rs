@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "Composer (PHP)",
+        name: "Composer",
         command: "composer",
         category: Category::Language,
         version_flag: "--version",

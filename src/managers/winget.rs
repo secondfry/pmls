@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "Winget",
+        name: "Windows Package Manager",
         command: "winget",
         category: Category::System,
         version_flag: "--version",

@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "APT",
+        name: "Advanced Package Tool",
         command: "apt",
         category: Category::System,
         version_flag: "--version",

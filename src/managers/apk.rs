@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "APK",
+        name: "Alpine Package Keeper",
         command: "apk",
         category: Category::System,
         version_flag: "--version",

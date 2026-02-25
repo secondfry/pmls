@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "Cargo (Rust)",
+        name: "Rust package manager",
         command: "cargo",
         category: Category::Language,
         version_flag: "--version",

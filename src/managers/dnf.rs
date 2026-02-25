@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "DNF",
+        name: "Dandified YUM",
         command: "dnf",
         category: Category::System,
         version_flag: "--version",

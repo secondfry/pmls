@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "Emerge (Portage)",
+        name: "Portage",
         command: "emerge",
         category: Category::System,
         version_flag: "--version",

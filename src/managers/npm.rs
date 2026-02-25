@@ -2,7 +2,7 @@ use crate::manager::{Category, PackageManager};
 
 pub fn manager() -> PackageManager {
     PackageManager {
-        name: "npm (Node.js)",
+        name: "Node Package Manager",
         command: "npm",
         category: Category::Language,
         version_flag: "--version",
