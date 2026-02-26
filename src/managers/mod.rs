@@ -209,6 +209,9 @@ pub fn swift_tools() -> Vec<PackageManager> {
 }
 
 /// Polyglot version / toolchain managers.
+// Not used by the CLI (which builds groups inline in main); exposed for
+// library consumers who want to enumerate managers by category.
+#[allow(dead_code)]
 pub fn toolchain() -> Vec<PackageManager> {
     vec![
         asdf::manager(),
@@ -226,6 +229,8 @@ pub fn toolchain() -> Vec<PackageManager> {
 }
 
 /// All language managers concatenated — used by all() and --json output.
+// Not used by the CLI directly; exposed for library consumers and used by all().
+#[allow(dead_code)]
 pub fn language() -> Vec<PackageManager> {
     [
         javascript(),
@@ -260,6 +265,9 @@ pub fn universal() -> Vec<PackageManager> {
 }
 
 /// Full catalog — all categories concatenated.
+// Not used by the CLI (which builds category groups explicitly); exposed for
+// library consumers who want the complete flat manager list in one call.
+#[allow(dead_code)]
 pub fn all() -> Vec<PackageManager> {
     [system(), language(), universal()].concat()
 }

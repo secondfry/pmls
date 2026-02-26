@@ -127,7 +127,7 @@ With `--list --json` each entry gains a `"packages"` array (and `"list_error"` w
 
 ```sh
 cargo build
-# binary at target/release/pmls  (pmls.exe on Windows)
+# binary at target/debug/pmls  (pmls.exe on Windows)
 ```
 
 ## Supported package managers
@@ -350,6 +350,9 @@ These managers govern which runtime version is active rather than installing pac
 | Crate | Purpose |
 |---|---|
 | [clap 4](https://github.com/clap-rs/clap) | CLI argument parsing |
+| [colored](https://github.com/colored-rs/colored) | Terminal colour output |
+| [rayon](https://github.com/rayon-rs/rayon) | Parallel detection across all managers |
 | [serde](https://serde.rs) | Derive macros for (de)serialisation |
 | [serde_json](https://github.com/serde-rs/json) | JSON serialisation for `--json` output |
 | [simd-json](https://github.com/simd-litmus/simd-json) | Fast JSON deserialisation for reading manager config files |
+| [which](https://github.com/harryfei/which-rs) | In-process PATH lookup (no subprocess) |

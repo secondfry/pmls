@@ -40,7 +40,7 @@ fn poetry_version(output: &str) -> Option<String> {
     let line = output.lines().find(|l| l.contains("Poetry"))?;
     // Matches "Poetry (version 1.8.3)" or "Poetry version 1.8.3"
     line.split_whitespace()
-        .find(|w| w.chars().next().map_or(false, |c| c.is_ascii_digit()))
+        .find(|w| w.chars().next().is_some_and(|c| c.is_ascii_digit()))
         .map(|s| s.trim_end_matches(')').to_string())
 }
 

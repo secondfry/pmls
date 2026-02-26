@@ -34,8 +34,7 @@ pub fn manager() -> PackageManager {
 
 /// `mise --version` → "2024.12.1 macos-arm64 ..." — extract "2024.12.1".
 fn mise_version(output: &str) -> Option<String> {
-    output.trim()
-        .split_whitespace()
+    output.split_whitespace()
         .next()
         .map(|s| s.to_string())
 }

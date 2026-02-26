@@ -62,6 +62,8 @@ fn probe(pm: PackageManager) -> Option<DetectedPackageManager> {
 /// Detection is parallelised across all managers using rayon — each manager's
 /// PATH probe and version subprocess run concurrently on the thread pool.
 /// Use `detect_grouped` when you need results bucketed by category label.
+// Not used by the CLI (which uses detect_grouped for columnar output), but
+// provided as a flat API for library consumers who don't need category buckets.
 #[allow(dead_code)]
 pub fn detect(all: Vec<PackageManager>) -> Vec<DetectedPackageManager> {
     all.into_par_iter().filter_map(probe).collect()

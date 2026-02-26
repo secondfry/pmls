@@ -31,12 +31,12 @@ pub fn manager() -> PackageManager {
 fn sbt_version(output: &str) -> Option<String> {
     for line in output.lines() {
         let lower = line.to_lowercase();
-        if lower.contains("script version") || lower.contains("sbt version") {
-            if let Some(v) = line.split(':').nth(1) {
-                let trimmed = v.trim().to_string();
-                if !trimmed.is_empty() {
-                    return Some(trimmed);
-                }
+        if (lower.contains("script version") || lower.contains("sbt version"))
+            && let Some(v) = line.split(':').nth(1)
+        {
+            let trimmed = v.trim().to_string();
+            if !trimmed.is_empty() {
+                return Some(trimmed);
             }
         }
     }
