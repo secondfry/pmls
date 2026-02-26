@@ -84,7 +84,7 @@ pub fn manager() -> PackageManager {
             for line in text.lines() {
                 if !line.starts_with('\t') {
                     // "D:\go\bin\pmls.exe: go1.21.5"
-                    let path_part = line.splitn(2, ':').next().unwrap_or("").trim();
+                    let path_part = line.split(':').next().unwrap_or("").trim();
                     current_name = std::path::Path::new(path_part)
                         .file_name()
                         .map(|n| n.to_string_lossy().into_owned())

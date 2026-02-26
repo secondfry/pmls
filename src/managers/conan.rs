@@ -33,8 +33,7 @@ pub fn manager() -> PackageManager {
 
 /// `conan --version` → "Conan version 2.9.2" — extract "2.9.2".
 fn conan_version(output: &str) -> Option<String> {
-    output.trim()
-        .split_whitespace()
+    output.split_whitespace()
         .last()
         .map(|s| s.to_string())
 }

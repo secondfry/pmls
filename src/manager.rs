@@ -4,6 +4,8 @@ use serde::Serialize;
 /// Resolved values of a manager's declared environment variables.
 /// Keys are the static variable names from `PackageManager::env_vars`.
 pub type EnvMap = HashMap<&'static str, String>;
+pub type PackagesDirFn = fn(&EnvMap) -> Option<(String, &'static str)>;
+pub type ListFn = fn(&EnvMap) -> Result<Vec<String>, String>;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Category {
@@ -34,6 +36,9 @@ pub struct PackageManager {
     /// Notable config file / directory paths.
     /// May use `~` for home directory or platform-specific variables as
     /// documentation hints (e.g. `%APPDATA%`, `$XDG_CONFIG_HOME`).
+    // Not read by the CLI today; reserved for planned features (e.g. config
+    // file discovery, shell environment introspection) and library consumers.
+    #[allow(dead_code)]
     pub config_paths: &'static [&'static str],
     /// Environment variables that influence the manager's behaviour
     /// (install root, cache dir, registry, proxy, etc.).
@@ -41,7 +46,7 @@ pub struct PackageManager {
     /// Runtime function that resolves the primary directory where packages
     /// or binaries installed by this manager live.
     /// Returns `None` when the location cannot be determined at runtime.
-    pub packages_dir: Option<fn(&EnvMap) -> Option<(String, &'static str)>>,
+    pub packages_dir: Option<PackagesDirFn>,
     /// Command + arguments used to list installed packages, e.g.
     /// `&["npm", "-g", "ls", "--depth=0"]`.
     /// The first element must be the executable; the rest are arguments.
@@ -50,7 +55,7 @@ pub struct PackageManager {
     /// Optional closure for listing when a simple static command is not
     /// sufficient (e.g. glob expansion or runtime path resolution is required).
     /// Takes precedence over `list_cmd` when both are set.
-    pub list_fn: Option<fn(&EnvMap) -> Result<Vec<String>, String>>,
+    pub list_fn: Option<ListFn>,
 }
 
 #[derive(Debug)]
